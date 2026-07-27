@@ -106,7 +106,7 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav className="z-[1000] fixed flex items-center px-4 sm:px-12 justify-between w-screen min-h-[6.5vh] bg-[#fff] border-b-2 border-[#E93400] text-black">
+    <nav className="z-[1000] fixed flex items-center px-4 sm:px-12 justify-between w-screen min-h-[6.5vh] bg-[#fff] border-b-2 border-[#c0d0fa] text-black">
       <Link
         href="/"
         className="w-[38px] sm:w-[24px] md:w-[32px] lg:w-[36px] xl:w-[42px] 2xl:w-[48px] h-auto cursor-pointer"
@@ -121,13 +121,13 @@ export default function NavigationBar() {
 
       <div className="hidden lg:text-lg xl:text-lg 2xl:text-xl lg:flex gap-4 xl:gap-8 items-center">
         <Link
-          className="cursor-pointer hover:underline hover:text-green-500"
+          className="cursor-pointer hover:underline hover:text-blue-500"
           href="/about"
         >
           About
         </Link>
         <Link
-          className="cursor-pointer hover:underline hover:text-red-500"
+          className="cursor-pointer hover:underline hover:text-blue-500"
           href="/events"
         >
           Events
@@ -139,19 +139,19 @@ export default function NavigationBar() {
           Achievements
         </Link>
         <Link
-          className="cursor-pointer hover:underline hover:text-yellow-500"
+          className="cursor-pointer hover:underline hover:text-blue-500"
           href="/activities"
         >
           Activities
         </Link>
         <Link
-          className="cursor-pointer hover:underline hover:text-slate-500"
+          className="cursor-pointer hover:underline hover:text-blue-500"
           href="/competitions"
         >
           Competitions
         </Link>
         <Link
-          className="cursor-pointer hover:underline hover:text-purple-500"
+          className="cursor-pointer hover:underline hover:text-blue-500"
           href="/members"
         >
           Members
@@ -265,7 +265,7 @@ export default function NavigationBar() {
 
       {/* Hamburger Menu */}
       <div
-        className="flex lg:hidden flex-col gap-1 items-center cursor-pointer z-[1001] bg-[#E93400] p-2 rounded-sm"
+        className="flex lg:hidden flex-col gap-1 items-center cursor-pointer z-[1001] bg-[#164098] p-2 rounded-sm"
         onClick={handleMobileMenuToggle}
       >
         <div className="w-7 h-1 bg-white origin-center will-change-transform"></div>
@@ -281,13 +281,13 @@ export default function NavigationBar() {
         >
           <div
             ref={mobileMenuRef}
-            className="w-[35%] bg-[#E5603A] p-2 flex flex-col gap-2 will-change-transform shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.25)]"
+            className="w-[35%] bg-[#c0d0fa] p-2 flex flex-col gap-2 will-change-transform shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.25)]"
           >
             <div ref={mobileLinksRef} className="flex flex-col gap-2">
               {isLoggedIn && (
                 <div>
                   <button
-                    className="text-white text-center w-full py-2 hover:text-cyan-400 text-md border-b-white/60 border-b-1 will-change-transform flex justify-center items-center"
+                    className="text-center w-full py-2 hover:text-cyan-400 text-md border-b-white/60 border-b-1 will-change-transform flex justify-center items-center"
                     onClick={() => setMobileDashboardOpen(!mobileDashboardOpen)}
                   >
                     Dashboard
@@ -352,7 +352,7 @@ export default function NavigationBar() {
                 </div>
               )}
               <Link
-                className="text-white text-center w-full py-2 hover:text-green-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="text-center w-full py-2 hover:text-green-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/about"
                 onClick={() => handleMobileMenuToggle()}
               >
@@ -360,7 +360,7 @@ export default function NavigationBar() {
               </Link>
 
               <Link
-                className="text-white text-center w-full py-2 hover:text-red-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="text-center w-full py-2 hover:text-red-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/events"
                 onClick={() => handleMobileMenuToggle()}
               >
@@ -368,7 +368,7 @@ export default function NavigationBar() {
               </Link>
 
               <Link
-                className="text-white flex justify-center items-center gap-1 text-center py-2 hover:text-blue-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="flex justify-center items-center gap-1 text-center py-2 hover:text-blue-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/achievements"
                 onClick={() => handleMobileMenuToggle()}
               >
@@ -376,7 +376,7 @@ export default function NavigationBar() {
               </Link>
 
               <Link
-                className="text-white text-center py-2 hover:text-yellow-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="text-center py-2 hover:text-yellow-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/activities"
                 onClick={() => handleMobileMenuToggle()}
               >
@@ -384,7 +384,7 @@ export default function NavigationBar() {
               </Link>
 
               <Link
-                className="text-white text-center w-full py-2 hover:text-slate-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="text-center w-full py-2 hover:text-slate-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/competitions"
                 onClick={() => handleMobileMenuToggle()}
               >
@@ -392,7 +392,7 @@ export default function NavigationBar() {
               </Link>
 
               <Link
-                className="text-white text-center py-2 hover:text-purple-500 text-md border-b-white/60 border-b-1 will-change-transform"
+                className="text-center py-2 hover:text-purple-500 text-md border-b-[#164098]/60 border-b-1 will-change-transform"
                 href="/members"
                 onClick={() => handleMobileMenuToggle()}
               >
