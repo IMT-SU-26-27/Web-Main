@@ -7,6 +7,7 @@
   --font-family-haetten: "Haettenschweiler", sans-serif;
   --font-family-poppins: "Poppins", sans-serif;
   --font-family-fredoka: "Fredoka", sans-serif;
+   --font-pixel: var(--font-pixelify);
   --color-background: #f1eee6;
   --color-foreground: #171717;
 }
