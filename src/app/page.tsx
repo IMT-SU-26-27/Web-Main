@@ -4,6 +4,8 @@ import PSPHomeDesktop from "@/components/home/PSPHomeDesktop";
 import PSPHomeMobile from "@/components/home/PSPHomeMobile";
 import ChatBubbleSection from "@/components/home/ChatBubbleSection";
 import BigWaves from "@/components/home/BigWaves";
+import AchievementFeatured from "@/components/achievement/AchievementFeatured";
+
 export const metadata = {
   title: "Home - SU IMT",
   description: "Student Union Information and Multimedia Technology - Your Creative Tech Community",
@@ -21,6 +23,7 @@ export default async function Home() {
       </section>
       <ChatBubbleSection title={`“Hi there, I'm Veno! You might be wondering, what is SU IMT?`} content={`Well, SU IMT (or Student Union Information and Multimedia Technology) is a student-led organization that serves as a platform for students of the Informatics study program to grow professionally, socially, and academically. SU IMT UC organizes various events, workshops, and initiatives to enhance student engagement, develop leadership skills, and support innovation in technology.”`} />
       <BigWaves />
+      <AchievementFeatured></AchievementFeatured>
     </div>
   );
 }

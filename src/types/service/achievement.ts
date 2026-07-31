@@ -54,8 +54,3 @@ export const AchievementSchema = z.object({
 export type AchievementInput = z.infer<typeof AchievementSchema>;
 
 export type AchievementFormProps = FormProps<Achievement>;
-
-export interface AchievementCardProps extends Achievement {
-  type: string;
-  borderColor: "blue" | "green" | "pink" | "red" | "yellow" | "gray";
-}
