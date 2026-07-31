@@ -2,6 +2,7 @@ import "./globals.css";
 import Providers from "@/components/utils/Providers";
 import NavigationBar from "@/components/NavigationBar";
 import type { Metadata } from "next";
+import { pixelify } from '@/lib/utils/font'
 
 export const metadata: Metadata = {
   title: "SU IMT UC",
@@ -15,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${pixelify.variable} antialiased`}>
         <Providers>
           <NavigationBar />
           {children}
