@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from "react";
-import AchievementFeatured from "@/components/achievement/AchievementFeatured";
 import { AchievementCard } from "@/components/achievement/AchievementCard";
 import SearchBar from "@/components/SearchBar";
 import { Achievement } from "@/types/service/achievement";
@@ -77,11 +76,11 @@ export default function AchievementsSearch({ achievements, featuredAchievements 
               {featuredAchievements && featuredAchievements.map((item, index) => {
                 const borderColor = colors[index % colors.length];
                 return (
-                  <AchievementFeatured
-                    key={index}
-                    {...item}
-                    type="Achivement"
+                  <AchievementCard
+                    key={item.id}
+                    achievement={item}
                     borderColor={borderColor}
+                    type="Achievement"
                     className={`${index % 2 === 0 ? "start-left" : "start-right"}`}
                   />
                 )
@@ -93,10 +92,10 @@ export default function AchievementsSearch({ achievements, featuredAchievements 
                 return (
                   <AchievementCard
                     key={achievement.id}
-                    {...achievement}
+                    achievement={achievement}
                     borderColor={borderColor}
                     type="Achievement"
-                    className=".start-bottom"
+                    className="start-bottom"
                   />
                 );
               })}
