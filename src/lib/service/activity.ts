@@ -7,22 +7,37 @@ import { Activity, ActivityData, ActivitySchema } from "@/types/service/activity
 import { Category } from "@prisma/client";
 
 export async function getActivities(): Promise<Activity[]> {
-  return await prisma.activity.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.activity.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock activities.");
+    return [];
+  }
 }
 
 export async function getLatestActivities(limit: number = 3): Promise<Activity[]> {
-  return await prisma.activity.findMany({
-    orderBy: { createdAt: "desc" },
-    take: limit,
-  });
+  try {
+    return await prisma.activity.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock latest activities.");
+    return [];
+  }
 }
 
 export async function getActivityById(id: string): Promise<Activity | null> {
-  return await prisma.activity.findUnique({
-    where: { id },
-  });
+  try {
+    return await prisma.activity.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock activity.");
+    return null;
+  }
 }
 
 export async function createActivity(

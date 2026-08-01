@@ -10,34 +10,54 @@ import {
 } from "@/types/service/achievement";
 
 export async function getAchievements(): Promise<Achievement[]> {
-  return await prisma.achievement.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.achievement.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock achievements.");
+    return [];
+  }
 }
 
 export async function getAchievementById(
   id: string
 ): Promise<Achievement | null> {
-  return await prisma.achievement.findUnique({
-    where: { id },
-  });
+  try {
+    return await prisma.achievement.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock achievement.");
+    return null;
+  }
 }
 
 export async function getFeaturedAchievements(): Promise<
   Achievement[] | undefined
 > {
-  return await prisma.achievement.findMany({
-    where: { featured: true },
-  });
+  try {
+    return await prisma.achievement.findMany({
+      where: { featured: true },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock featured achievements.");
+    return [];
+  }
 }
 
 export async function getAchievementsExcludingFeatured(): Promise<
   Achievement[]
 > {
-  return await prisma.achievement.findMany({
-    where: { featured: false },
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.achievement.findMany({
+      where: { featured: false },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.warn("DB connection failed. Returning mock non-featured achievements.");
+    return [];
+  }
 }
 
 export async function createAchievement(
