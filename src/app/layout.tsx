@@ -2,6 +2,8 @@ import "./globals.css";
 import Providers from "@/components/utils/Providers";
 import NavigationBar from "@/components/NavigationBar";
 import type { Metadata } from "next";
+import { pixelify } from '@/lib/utils/font';
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "SU IMT UC",
@@ -15,11 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
+      <body className={`${pixelify.variable} antialiased`} suppressHydrationWarning>
         <Providers>
           <NavigationBar />
           {children}
         </Providers>
+        <Footer></Footer>
       </body>
     </html>
   );
