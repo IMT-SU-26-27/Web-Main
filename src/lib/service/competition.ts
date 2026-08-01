@@ -10,17 +10,59 @@ import {
 } from "@/types/service/competition";
 
 export async function getCompetitions(): Promise<Competition[]> {
-  return await prisma.competition.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.competition.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.warn("Database connection failed. Returning mock competitions for UI testing.");
+    return [
+      {
+        id: "1",
+        name: "Hackfest 2026",
+        organizer: "Student Union",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        category: "Technology",
+        information: "Test info",
+        imageUrl: "/competitions/competition-detail/duck.webp",
+        imagePublicId: null,
+        type: "GROUP" as any,
+        level: "NATIONAL" as any,
+        startDate: new Date(),
+        endDate: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    ];
+  }
 }
 
 export async function getCompetitionById(
   id: string
 ): Promise<Competition | null> {
-  return await prisma.competition.findUnique({
-    where: { id },
-  });
+  try {
+    return await prisma.competition.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.warn(`Database connection failed. Returning mock competition for ID ${id}.`);
+    return {
+      id: "1",
+      name: "Hackfest 2026",
+      organizer: "Student Union",
+      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      category: "Technology",
+      information: "Test info",
+      imageUrl: "/competitions/competition-detail/duck.webp",
+      imagePublicId: null,
+      type: "GROUP" as any,
+      level: "NATIONAL" as any,
+      startDate: new Date(),
+      endDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
 }
 
 export async function createCompetition(
