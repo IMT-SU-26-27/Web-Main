@@ -3,6 +3,7 @@ import { getFeaturedAchievements } from "@/lib/service/achievement";
 import { Achievement } from "@/types/service/achievement";
 import AchievementFeaturedCarousel from "@/components/achievement/AchievementFeaturedCarousel";
 import ArrowButton from "../utils/ArrowButton";
+import LinkButton from "../LinkButton";
 export async function AchievementFeatured() {
   const featuredAchievements: Achievement[] =
     (await getFeaturedAchievements()) ?? [];
@@ -29,6 +30,7 @@ export async function AchievementFeatured() {
         </div>
        <ArrowButton extraClass="absolute -right-4" direction="right" onClick={()=>({})}></ArrowButton>
        <ArrowButton extraClass="absolute -left-4" direction="left" onClick={()=>({})}></ArrowButton>
+       <LinkButton size="xl" extraClass="absolute -bottom-3 z-5" href="/">{"see more !"}</LinkButton>
       </div>
     </section>
   );
