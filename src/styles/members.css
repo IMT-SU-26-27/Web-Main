@@ -1,0 +1,146 @@
+/* Headline*/
+.division-pill,
+.division-description,
+.member-card__role,
+.member-card__name {
+  font-family: "Glacial Indifference Bold", sans-serif;
+}
+
+/*Division header*/
+
+.division-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+
+  background-color: #000000;
+  border-radius: 9999px;
+  padding: clamp(0.6rem, 1.4vw, 0.9rem) clamp(1.25rem, 3vw, 2rem);
+
+  color: #ffffff;
+  font-weight: 700;
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* dots */
+.division-pill__dot {
+  flex-shrink: 0;
+  width: clamp(0.85rem, 1.6vw, 1.15rem);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background-color: #fff5e3; 
+}
+
+.division-description {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  text-wrap: balance;
+  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  line-height: 1.35;
+}
+
+/* Member grid */
+
+.member-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.6vw, 1.5rem);
+  width: 100%;
+  padding-inline: 1rem;
+}
+
+/* Member card */
+
+.member-card {
+  --card-padding: clamp(0.4rem, 0.7vw, 0.6rem);
+
+  display: flex;
+  flex-direction: column;
+  width: clamp(8.25rem, 12vw, 10rem);
+
+  background-color: var(--card-color);
+  border-radius: clamp(0.6rem, 0.9vw, 0.85rem);
+  padding: var(--card-padding) var(--card-padding)
+    calc(var(--card-padding) * 1.6);
+}
+
+/* Photo panel */
+.member-card__photo {
+  position: relative;
+  aspect-ratio: 9 / 10;
+  background-color: #ffffff;
+  border-radius: calc(clamp(0.6rem, 0.9vw, 0.85rem) - var(--card-padding) / 2);
+  overflow: hidden;
+}
+
+.member-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-card__dot {
+  position: absolute;
+  width: clamp(0.25rem, 0.4vw, 0.35rem);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background-color: var(--card-color);
+}
+
+.member-card__dot--tl {
+  top: 0.4rem;
+  left: 0.4rem;
+}
+.member-card__dot--tr {
+  top: 0.4rem;
+  right: 0.4rem;
+}
+.member-card__dot--bl {
+  bottom: 0.4rem;
+  left: 0.4rem;
+}
+.member-card__dot--br {
+  bottom: 0.4rem;
+  right: 0.4rem;
+}
+
+.member-card__role {
+  margin-top: calc(var(--card-padding) * 1.4);
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  font-size: clamp(0.75rem, 1vw, 0.95rem);
+  line-height: 1.2;
+}
+
+.member-card__name {
+  margin-top: calc(var(--card-padding) * 0.6);
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+  line-height: 1.2;
+}
+
+/* Phones: two cards per row, a little more breathing room around the pill. */
+
+@media (max-width: 480px) {
+  .member-card {
+    width: min(9rem, 42vw);
+  }
+
+  .member-grid {
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+  }
+}
