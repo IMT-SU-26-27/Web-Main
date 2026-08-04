@@ -2,10 +2,11 @@ import Image from "next/image";
 import { getFeaturedAchievements } from "@/lib/service/achievement";
 import { Achievement } from "@/types/service/achievement";
 import AchievementFeaturedCarousel from "@/components/achievement/AchievementFeaturedCarousel";
-
+import ArrowButton from "../utils/ArrowButton";
 export async function AchievementFeatured() {
   const featuredAchievements: Achievement[] =
     (await getFeaturedAchievements()) ?? [];
+
 
   return (
     <section className="bg-gradient-to-b pb-24 -mt-0.5 from-[#4A74D8] to-[#214DB0] min-h-screen w-screen overflow-x-hidden flex flex-col justify-center items-center">
@@ -26,6 +27,8 @@ export async function AchievementFeatured() {
             />
           </div>
         </div>
+       <ArrowButton extraClass="absolute -right-4" direction="right" onClick={()=>({})}></ArrowButton>
+       <ArrowButton extraClass="absolute -left-4" direction="left" onClick={()=>({})}></ArrowButton>
       </div>
     </section>
   );

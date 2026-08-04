@@ -19,3 +19,9 @@ export interface UploadWidgetProps {
   folder: string;
   allowedFormats: string[];
 }
+
+export interface ArrowButtonProps {
+  onClick: () => void;
+  direction: "left" | "right";
+  extraClass: string;
+}
