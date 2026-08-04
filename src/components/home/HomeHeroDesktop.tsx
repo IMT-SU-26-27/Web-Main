@@ -3,7 +3,7 @@ import React from 'react'
 import LinkButton from '@/components/LinkButton'
 export default function HomeHeroDesktop() {
     return (
-        <div className='relative rotate-z-1 hidden lg:flex w-[90%] h-full border-[#7296F6] border-b-24 border-r-24 rounded-4xl'>
+        <div className='relative rotate-z-1 hidden md:flex w-[90%] h-full border-[#7296F6] border-b-24 border-r-24 rounded-4xl'>
             <div className='absolute min-w-full min-h-full bg-[#7296F6] z-0 rounded-tl-4xl rounded-tr-lg'></div>
             <div className='relative w-full flex'>
                 <div className='bg-light-blue min-h-full p-4 rounded-bl-4xl rounded-tl-4xl'>

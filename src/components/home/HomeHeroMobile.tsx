@@ -4,7 +4,7 @@ import LinkButton from '../LinkButton'
 
 export default function HomeHeroMobile() {
     return (
-        <div className='relative bg-gradient-to-b from-[#ABC1FC] to-[#7397F6] rounded-tr-2xl rounded-br-[8rem] sm:rounded-br-[10rem] p-3 pb-6 w-[92%] max-w-md flex lg:hidden justify-center items-center my-2'>
+        <div className='relative bg-gradient-to-b from-[#ABC1FC] to-[#7397F6] rounded-tr-2xl rounded-br-[8rem] sm:rounded-br-[10rem] p-3 pb-6 w-[92%] max-w-md flex md:hidden justify-center items-center my-2'>
             <div className='bg-light-blue w-full flex gap-4 flex-col justify-start items-center p-4 sm:p-6 rounded-tr-xl rounded-br-[7.5rem] sm:rounded-br-[9.5rem]'>
                 <div className='bg-[#300000] relative flex justify-center p-2 w-full h-[20rem] sm:h-[22rem] items-center rounded-lg overflow-hidden'>
                     <div className='relative z-1 bg-[url("/home/rcn.webp")] bg-cover bg-center w-full h-full rounded-md overflow-hidden'>
