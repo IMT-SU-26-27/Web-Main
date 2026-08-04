@@ -2,7 +2,7 @@ import "./globals.css";
 import Providers from "@/components/utils/Providers";
 import NavigationBar from "@/components/NavigationBar";
 import type { Metadata } from "next";
-import { pixelify } from '@/lib/utils/font'
+import { pixelify, cinzel } from '@/lib/utils/font'
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pixelify.variable} antialiased`}>
+      <body className={`${pixelify.variable} ${cinzel.variable} antialiased`}>
         <Providers>
           <NavigationBar />
           {children}

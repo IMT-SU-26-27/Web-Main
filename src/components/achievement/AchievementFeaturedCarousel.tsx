@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AchievementCard from "@/components/achievement/AchievementCard";
 import { Achievement } from "@/types/service/achievement";
-
+import ArrowButton from "@/components/utils/ArrowButton";
+import { useIsMobile } from "@/hooks/useIsMobile";
 interface AchievementFeaturedCarouselProps {
   achievements: Achievement[];
 }
@@ -11,9 +12,14 @@ interface AchievementFeaturedCarouselProps {
 export default function AchievementFeaturedCarousel({
   achievements,
 }: AchievementFeaturedCarouselProps) {
-  const itemsPerPage = 3;
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? 2 : 3;
   const totalPages = Math.ceil(achievements.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState<number>(0);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [itemsPerPage]);
 
   const handlePrev = (): void => {
     setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
@@ -42,26 +48,7 @@ export default function AchievementFeaturedCarousel({
       <div className="w-full flex justify-center items-center gap-4">
         {/* Previous Button */}
         {totalPages > 1 && (
-          <button
-            onClick={handlePrev}
-            aria-label="Previous achievements"
-            className="shrink-0 w-10 h-10 rounded-full bg-[#7E3E11] border-2 border-[#543737] text-white flex items-center justify-center hover:bg-[#9B5A2A] transition-colors duration-200 cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+          <ArrowButton extraClass="absolute -left-4" direction="left" onClick={handlePrev}></ArrowButton>
         )}
 
         {/* Achievement Cards */}
@@ -76,26 +63,7 @@ export default function AchievementFeaturedCarousel({
 
         {/* Next Button */}
         {totalPages > 1 && (
-          <button
-            onClick={handleNext}
-            aria-label="Next achievements"
-            className="shrink-0 w-10 h-10 rounded-full bg-[#7E3E11] border-2 border-[#543737] text-white flex items-center justify-center hover:bg-[#9B5A2A] transition-colors duration-200 cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+          <ArrowButton extraClass="absolute -right-4" direction="right" onClick={handleNext}></ArrowButton>
         )}
       </div>
 

@@ -5,7 +5,7 @@ export default function ArrowButton(props: ArrowButtonProps) {
     const directionClass = props.direction === 'left' ? ' rotate-z-180' : ''
 
     return (
-        <svg width="63" className={"z-4 hover:fill-amber-300 hover:scale-110 " + props.extraClass + directionClass} height="69" viewBox="0 0 63 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="63" onClick={props.onClick} className={"z-4 cursor-pointer hover:fill-amber-300 hover:scale-110 " + props.extraClass + directionClass} height="69" viewBox="0 0 63 69" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_3399_31)">
                 <g filter="url(#filter0_i_3399_31)">
                     <path d="M57 25.8404C63.6667 29.6894 63.6667 39.3119 57 43.1609L15.75 66.9766C9.08333 70.8256 0.750004 66.0143 0.750005 58.3163L0.750007 10.6849C0.750007 2.9869 9.08334 -1.82435 15.75 2.02466L57 25.8404Z" fill="#FFB422" />

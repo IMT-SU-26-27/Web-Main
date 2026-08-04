@@ -16,10 +16,10 @@ export default async function Home() {
 
   return (
     <div className="overflow-x-hidden w-screen flex justify-center items-center flex-col">
-      <section className="relative mt-0 md:mt-[4vh] bg-medium-blue w-full min-h-screen flex justify-center items-center">
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 bg-medium-blue w-full flex flex-col justify-center items-center">
         <HomeHeroDesktop />
         <HomeHeroMobile />
-        <Image src={"home/lines.svg"} alt="lines" width={100} height={100} className="w-full absolute -bottom-1 xl:-bottom-7"></Image>
+        <Image src={"/home/lines.svg"} alt="lines" width={100} height={100} className="w-full absolute -bottom-1 xl:-bottom-7"></Image>
       </section>
       <ChatBubbleSection title={`“Hi there, I'm Veno! You might be wondering, what is SU IMT?`} content={`Well, SU IMT (or Student Union Information and Multimedia Technology) is a student-led organization that serves as a platform for students of the Informatics study program to grow professionally, socially, and academically. SU IMT UC organizes various events, workshops, and initiatives to enhance student engagement, develop leadership skills, and support innovation in technology.”`} />
       <BigWaves />

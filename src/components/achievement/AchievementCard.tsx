@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import React from "react";
 import { Achievement } from "@/types/service/achievement";
 
@@ -15,14 +15,16 @@ export function AchievementCard({
   achievement,
   className,
 }: AchievementCardProps) {
+  const imageSrc = achievement.imagePublicId || achievement.imageUrl;
+
   return (
     <div
-      className={`bg-white w-[20rem] p-4 h-96 flex flex-col justify-start items-center rounded-lg shadow-md overflow-hidden ${className ?? ""}`}
+      className={`bg-white w-[16rem] md:w-[20rem] p-4 h-96 flex flex-col justify-start items-center rounded-lg shadow-md overflow-hidden ${className ?? ""}`}
     >
-      {achievement.imageUrl ? (
+      {imageSrc ? (
         <div className="relative bg-gray-300 h-72 w-full rounded overflow-hidden">
-          <Image
-            src={achievement.imageUrl}
+          <CldImage
+            src={imageSrc}
             alt={achievement.title}
             fill
             className="object-cover"
