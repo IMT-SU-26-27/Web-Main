@@ -38,8 +38,20 @@
     "eslint": "^9.32.0",
     "eslint-config-next": "15.4.2",
     "prisma": "^6.13.0",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }
