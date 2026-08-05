@@ -16,6 +16,7 @@ export async function AchievementFeatured() {
           <Image
             alt="achievement text"
             width={300}
+            draggable={false}
             height={300}
             src={"/achievements/achievement-text.svg"}
             className="mt-4 w-[90%] xl:w-1/3 h-auto"

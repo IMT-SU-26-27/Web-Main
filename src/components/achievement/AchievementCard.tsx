@@ -24,6 +24,8 @@ export function AchievementCard({
       {imageSrc ? (
         <div className="relative bg-gray-300 h-72 w-full rounded overflow-hidden">
           <CldImage
+            draggable={false}
+            loading="lazy"
             src={imageSrc}
             alt={achievement.title}
             fill
