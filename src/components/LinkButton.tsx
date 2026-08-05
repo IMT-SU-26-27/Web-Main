@@ -16,7 +16,7 @@ export default function LinkButton({ href, children, size, extraClass }: ButtonP
 
     return (
         <>
-            <Link className={`bg-secondary font-semibold rounded-lg border-2 border-black text-center ${extraClass} ${sizeClasses}`} href={href}>{children}</Link>
+            <Link className={`bg-secondary hover:bg-amber-200 font-semibold rounded-lg border-2 border-black text-center ${extraClass} ${sizeClasses}`} href={href}>{children}</Link>
         </>
     )
 }
