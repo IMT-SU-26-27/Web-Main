@@ -63,7 +63,6 @@ const getActivityName = (application: ApplicationWithDetails): string => {
 export default function ApplicationsSearch({
   applications,
   updateApplicationStatus,
-  label = "Applications",
   additionalElements,
 }: ApplicationsSearchProps) {
   const [search, setSearch] = useState("");

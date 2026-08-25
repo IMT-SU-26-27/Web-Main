@@ -1,4 +1,3 @@
-import { getLatestActivities } from "@/lib/service/activity";
 import Image from "next/image";
 import HomeHeroDesktop from "@/components/home/HomeHeroDesktop";
 import HomeHeroMobile from "@/components/home/HomeHeroMobile";

@@ -29,7 +29,6 @@ export default function ApplicationsBoard({
   competitionApplications,
   activities,
   competitions,
-  stats,
   activityStats,
   competitionStats,
 }: ApplicationsBoardProps) {

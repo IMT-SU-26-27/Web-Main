@@ -12,7 +12,6 @@ import { Category } from "@prisma/client";
 export default function ActivityForm({
   mode,
   data,
-  categories,
 }: ActivityFormProps) {
   /* States */
   const [isSubmitting, setIsSubmitting] = useState(false);

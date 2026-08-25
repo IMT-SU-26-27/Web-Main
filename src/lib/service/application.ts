@@ -63,7 +63,7 @@ export async function getApplicationsWithDetails(): Promise<
 }
 
 export async function getApplicationsByUserId(
-  userId: string
+  userId: string,
 ): Promise<Application[]> {
   return await prisma.application.findMany({
     where: { userId },
@@ -72,7 +72,7 @@ export async function getApplicationsByUserId(
 }
 
 export async function getUserActivityApplications(
-  userId: string
+  userId: string,
 ): Promise<Application[]> {
   return await prisma.application.findMany({
     where: {
@@ -84,7 +84,7 @@ export async function getUserActivityApplications(
 }
 
 export async function getUserCompetitionApplications(
-  userId: string
+  userId: string,
 ): Promise<Application[]> {
   return await prisma.application.findMany({
     where: {
@@ -96,7 +96,7 @@ export async function getUserCompetitionApplications(
 }
 
 export async function getApplicationsByActivityId(
-  activityId: string
+  activityId: string,
 ): Promise<Application[]> {
   return await prisma.application.findMany({
     where: { activityId },
@@ -106,7 +106,7 @@ export async function getApplicationsByActivityId(
 
 export async function getStatusApplication(
   activityId: string,
-  userId: string
+  userId: string,
 ): Promise<string | undefined> {
   const applications = await getApplicationsByActivityId(activityId);
   const userApplications = applications.find((app) => app.userId === userId);
@@ -115,7 +115,7 @@ export async function getStatusApplication(
 
 export async function setStatusApplication(
   id: string,
-  status: Status
+  status: Status,
 ): Promise<ActionResult<Application>> {
   try {
     const application = await prisma.application.update({
@@ -143,20 +143,20 @@ export async function setStatusApplication(
 export async function getAmountApprovedApplication(activityId: string) {
   const applications = await getApplicationsByActivityId(activityId);
   const approvedApplications = applications.filter(
-    (app) => app.status === "APPROVED"
+    (app) => app.status === "APPROVED",
   );
   return approvedApplications.length;
 }
 
 export async function createApplication(
   userId: string,
-  activityId: string
+  activityId: string,
 ): Promise<ActionResult<Application>> {
   try {
     const user = await getUserById(userId);
     const existingApplications = await getApplicationsByUserId(userId);
     const alreadyApplied = existingApplications.some(
-      (app) => app.activityId === activityId
+      (app) => app.activityId === activityId,
     );
 
     if (!user) {
@@ -226,7 +226,7 @@ export async function createApplication(
 }
 
 export async function deleteApplication(
-  id: string
+  id: string,
 ): Promise<ActionResult<Application>> {
   try {
     const application = await prisma.application.delete({
