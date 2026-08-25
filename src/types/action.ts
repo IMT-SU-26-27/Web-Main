@@ -24,7 +24,7 @@ export interface ApplyButtonProps {
 export interface UploadWidgetProps {
   onUploadSuccess: (url: string, publicId?: string) => void;
   folder: string;
-  allowedFormats: string[];
+  allowedFormats?: string[];
 }
 
 export interface ArrowButtonProps {

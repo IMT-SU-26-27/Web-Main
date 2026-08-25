@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from "react";
 
-const MOBILE_BREAKPOINT = 1025;
+const DEFAULT_MOBILE_BREAKPOINT = 768;
 
-export function useIsMobile(): boolean {
+export function useIsMobile(
+  breakpoint: number = DEFAULT_MOBILE_BREAKPOINT
+): boolean {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(
-      `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
+      `(max-width: ${breakpoint - 1}px)`
     );
 
     const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
@@ -20,7 +22,7 @@ export function useIsMobile(): boolean {
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
+  }, [breakpoint]);
 
   return isMobile;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { CldImage } from "next-cloudinary";
+import CloudinaryImage from "@/components/CloudinaryImage";
 import { getEventById } from "@/lib/service/event";
 import NotFound from "./not-found";
 import Link from "next/link";
@@ -85,7 +85,7 @@ const EventDetails = async (props: {
             <div className="relative bg-[#f4ebd0] w-[340px] h-[340px] md:w-[480px] md:h-[480px] shadow-2xl rounded-sm border-[12px] border-[#f4ebd0] z-10 flex items-center justify-center">
               <div className="bg-gray-300 w-full h-full relative overflow-hidden">
                 {event.imagePublicId ? (
-                  <CldImage
+                  <CloudinaryImage
                     draggable={false}
                     loading="lazy"
                     src={event.imagePublicId}

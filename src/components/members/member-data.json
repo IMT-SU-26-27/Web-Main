@@ -1,346 +1,250 @@
 [
   {
     "id": "hod-1",
-    "name": "Dave Gideon T.W.",
+    "name": "Nicholas Gerwin Mawardji",
     "role": "PRESIDENT",
     "division": "Head of Department",
     "gender": "BOY",
-    "imagesrc": "/hod/dave.jpg"
+    "imagesrc": "/member/hod/niki.webp"
   },
   {
     "id": "hod-2",
-    "name": "Marcellino Indra W.",
+    "name": "Clarrence Adriano Hemeldan",
     "role": "VICE PRESIDENT",
     "division": "Head of Department",
     "gender": "BOY",
-    "imagesrc": "/hod/acel.jpg"
+    "imagesrc": "/member/hod/clarrence.webp"
   },
   {
     "id": "hod-3",
-    "name": "Theressa N.T.",
+    "name": "Hanzelius",
     "role": "SECRETARY",
     "division": "Head of Department",
-    "gender": "GIRL",
-    "imagesrc": "/hod/there.jpg"
+    "gender": "BOY",
+    "imagesrc": "/member/hod/hanz.webp"
   },
   {
     "id": "hod-4",
-    "name": "Graciella Chelsea L.",
+    "name": "Angelina Christiana Sugiarto",
     "role": "SECRETARY",
     "division": "Head of Department",
     "gender": "GIRL",
-    "imagesrc": "/hod/chelsealu.jpg"
+    "imagesrc": "/member/hod/angelina.webp"
   },
   {
     "id": "hod-5",
-    "name": "Priscilia King C.",
+    "name": "Angga Dhammika Jaya",
     "role": "TREASURER",
     "division": "Head of Department",
-    "gender": "GIRL",
-    "imagesrc": "/hod/priscilia.jpg"
+    "gender": "BOY",
+    "imagesrc": "/member/hod/angga.webp"
   },
   {
     "id": "hod-6",
-    "name": "Chrisensia A.G.",
+    "name": "Callista Nathania Andrea Nugroho",
     "role": "TREASURER",
     "division": "Head of Department",
     "gender": "GIRL",
-    "imagesrc": "/hod/abbie.jpg"
+    "imagesrc": "/member/hod/callista.webp"
   },
   {
-    "id": "internal-1",
-    "name": "Rinaldy Tanriady T.",
+    "id": "event-1",
+    "name": "Kristoforus Bertrand Wahyudi",
     "role": "COORDINATOR",
-    "division": "Internal Division",
+    "division": "Event Division",
     "gender": "BOY",
-    "imagesrc": "/internal/rinaldy.jpg"
+    "imagesrc": "/member/event/bb.webp"
   },
   {
-    "id": "internal-2",
-    "name": "Dave Tristian N.",
+    "id": "event-2",
+    "name": "Sean Agueiro Hartono",
     "role": "MEMBER",
-    "division": "Internal Division",
+    "division": "Event Division",
     "gender": "BOY",
-    "imagesrc": "/internal/dave.jpg"
+    "imagesrc": "/member/event/seanagueiro.webp"
   },
   {
-    "id": "internal-3",
-    "name": "Amadeus Ian G.",
+    "id": "event-3",
+    "name": "Kenneth Dean Oliver",
     "role": "MEMBER",
-    "division": "Internal Division",
+    "division": "Event Division",
     "gender": "BOY",
-    "imagesrc": "/internal/amadeus.jpg"
+    "imagesrc": "/member/event/kenneth.webp"
   },
   {
-    "id": "internal-4",
-    "name": "Eileen Cynthia Mark",
+    "id": "event-4",
+    "name": "Ina Devina",
     "role": "MEMBER",
-    "division": "Internal Division",
+    "division": "Event Division",
     "gender": "GIRL",
-    "imagesrc": "/internal/eileen.jpg"
+    "imagesrc": "/member/event/ina.webp"
   },
   {
-    "id": "internal-5",
-    "name": "Angga Dhamika J.",
+    "id": "event-5",
+    "name": "Dava Karunia Koentoro",
     "role": "MEMBER",
-    "division": "Internal Division",
+    "division": "Event Division",
     "gender": "BOY",
-    "imagesrc": "/internal/angga.jpg"
+    "imagesrc": "/member/event/dava.webp"
   },
   {
-    "id": "external-1",
-    "name": "Delvincent Patricio",
+    "id": "event-6",
+    "name": "Welly Heriksen",
+    "role": "MEMBER",
+    "division": "Event Division",
+    "gender": "BOY",
+    "imagesrc": "/member/event/welly.webp"
+  },
+  {
+    "id": "sr-1",
+    "name": "Shatrya Christiano Chandra",
     "role": "COORDINATOR",
-    "division": "External Division",
+    "division": "Social Relations Division",
     "gender": "BOY",
-    "imagesrc": "/external/delvincent.jpg"
+    "imagesrc": "/member/sr/shatrya.webp"
   },
   {
-    "id": "external-2",
-    "name": "Muhammad Altaf H.",
+    "id": "sr-2",
+    "name": "Sharon Natalie Sutanto",
     "role": "MEMBER",
-    "division": "External Division",
-    "gender": "BOY",
-    "imagesrc": "/external/altaf.jpg"
-  },
-  {
-    "id": "external-3",
-    "name": "Kristoforus B.W.",
-    "role": "MEMBER",
-    "division": "External Division",
-    "gender": "BOY",
-    "imagesrc": "/external/bb.jpg"
-  },
-  {
-    "id": "external-4",
-    "name": "Nicholas Gerwin M.",
-    "role": "MEMBER",
-    "division": "External Division",
-    "gender": "BOY",
-    "imagesrc": "/external/niki.jpg"
-  },
-  {
-    "id": "external-5",
-    "name": "Filemon Jose H.",
-    "role": "MEMBER",
-    "division": "External Division",
-    "gender": "BOY",
-    "imagesrc": "/external/jose.jpg"
-  },
-  {
-    "id": "external-6",
-    "name": "Wesley Goeinwan",
-    "role": "MEMBER",
-    "division": "External Division",
-    "gender": "BOY",
-    "imagesrc": "/external/wesley.jpg"
-  },
-  {
-    "id": "pdddesign-1",
-    "name": "Rex Kenny W.",
-    "role": "COORDINATOR",
-    "division": "PDD Design",
-    "gender": "BOY",
-    "imagesrc": "/pdddesign/rex.jpg"
-  },
-  {
-    "id": "pdddesign-2",
-    "name": "Chelsea Deanna H.",
-    "role": "MEMBER",
-    "division": "PDD Design",
+    "division": "Social Relations Division",
     "gender": "GIRL",
-    "imagesrc": "/pdddesign/cz.jpg"
+    "imagesrc": "/member/sr/sharon.webp"
   },
   {
-    "id": "pdddesign-3",
-    "name": "Matahari Dea Z.",
+    "id": "sr-3",
+    "name": "Shannon Lutfi Fiorenza",
     "role": "MEMBER",
-    "division": "PDD Design",
+    "division": "Social Relations Division",
     "gender": "GIRL",
-    "imagesrc": "/pdddesign/matahari.jpg"
+    "imagesrc": "/member/sr/shannon.webp"
   },
   {
-    "id": "pdddesign-4",
-    "name": "Bryan Carlie L.S.",
+    "id": "sr-4",
+    "name": "Nevandio Hera Joevandy",
     "role": "MEMBER",
-    "division": "PDD Design",
+    "division": "Social Relations Division",
     "gender": "BOY",
-    "imagesrc": "/pdddesign/bc.jpg"
+    "imagesrc": "/member/sr/nevandio.webp"
   },
   {
-    "id": "pdddesign-5",
-    "name": "Jason Christoper",
-    "role": "MEMBER",
-    "division": "PDD Design",
-    "gender": "BOY",
-    "imagesrc": "/pdddesign/jc.jpg"
-  },
-  {
-    "id": "pdddesign-6",
-    "name": "Jason Tio",
-    "role": "MEMBER",
-    "division": "PDD Design",
-    "gender": "BOY",
-    "imagesrc": "/pdddesign/jason.jpg"
-  },
-  {
-    "id": "pdddesign-7",
-    "name": "Clarice Harijanto",
-    "role": "MEMBER",
-    "division": "PDD Design",
-    "gender": "GIRL",
-    "imagesrc": "/pr/clarice.jpg"
-  },
-  {
-    "id": "pdddoc-1",
-    "name": "Matthew Regan H.",
+    "id": "prop-1",
+    "name": "Filemon Jose Hagen",
     "role": "COORDINATOR",
-    "division": "PDD Documentation",
+    "division": "Properties Division",
     "gender": "BOY",
-    "imagesrc": "/pdddocum/matthewregan.jpg"
+    "imagesrc": "/member/properties/jose.webp"
   },
   {
-    "id": "pdddoc-2",
-    "name": "Sean Lawton",
+    "id": "prop-2",
+    "name": "Ezekiel Reuben Kandoko",
     "role": "MEMBER",
-    "division": "PDD Documentation",
+    "division": "Properties Division",
     "gender": "BOY",
-    "imagesrc": "/pdddocum/sean.jpg"
+    "imagesrc": "/member/properties/ezekiel.webp"
   },
   {
-    "id": "pdddoc-3",
-    "name": "Flabianos Jason M.",
+    "id": "prop-3",
+    "name": "Gavin Gunawan",
     "role": "MEMBER",
-    "division": "PDD Documentation",
+    "division": "Properties Division",
     "gender": "BOY",
-    "imagesrc": "/pdddocum/flabianos.jpg"
+    "imagesrc": "/member/properties/gavin.webp"
   },
   {
-    "id": "pdddoc-4",
-    "name": "Keane Juan S.",
+    "id": "prop-4",
+    "name": "Christian Raharjo",
     "role": "MEMBER",
-    "division": "PDD Documentation",
+    "division": "Properties Division",
     "gender": "BOY",
-    "imagesrc": "/pdddocum/keane.jpg"
-  },
-  {
-    "id": "pdddoc-5",
-    "name": "Stevanus Ivan S.",
-    "role": "MEMBER",
-    "division": "PDD Documentation",
-    "gender": "BOY",
-    "imagesrc": "/pdddocum/ivan.jpg"
-  },
-  {
-    "id": "pdddoc-6",
-    "name": "Clarrence A.H.",
-    "role": "MEMBER",
-    "division": "PDD Documentation",
-    "gender": "BOY",
-    "imagesrc": "/pdddocum/clarrence.jpg"
-  },
-  {
-    "id": "pdddoc-7",
-    "name": "Kenneth J.H.",
-    "role": "MEMBER",
-    "division": "PDD Documentation",
-    "gender": "BOY",
-    "imagesrc": "/pdddocum/kenneth.jpg"
-  },
-  {
-    "id": "pr-1",
-    "name": "Felicia Joshlyn P.",
-    "role": "COORDINATOR",
-    "division": "Public Relation",
-    "gender": "GIRL",
-    "imagesrc": "/pr/feli.jpg"
-  },
-  {
-    "id": "pr-2",
-    "name": "Shatrya C.C.",
-    "role": "MEMBER",
-    "division": "Public Relation",
-    "gender": "BOY",
-    "imagesrc": "/pr/shatrya.jpg"
-  },
-  {
-    "id": "pr-3",
-    "name": "Dylan Patrick W.",
-    "role": "MEMBER",
-    "division": "Public Relation",
-    "gender": "BOY",
-    "imagesrc": "/pr/dylan.jpg"
-  },
-  {
-    "id": "sa-1",
-    "name": "Aaron Asa S.",
-    "role": "COORDINATOR",
-    "division": "Social Activity",
-    "gender": "BOY",
-    "imagesrc": "/sa/aaron.jpg"
-  },
-  {
-    "id": "sa-2",
-    "name": "Hans Vere Liem",
-    "role": "MEMBER",
-    "division": "Social Activity",
-    "gender": "BOY",
-    "imagesrc": "/sa/hanz.jpg"
-  },
-  {
-    "id": "sa-3",
-    "name": "Muh. Dzaky N.A.",
-    "role": "MEMBER",
-    "division": "Social Activity",
-    "gender": "BOY",
-    "imagesrc": "/sa/dzaky.jpg"
-  },
-  {
-    "id": "sa-4",
-    "name": "Jeferey Teddy S.",
-    "role": "MEMBER",
-    "division": "Social Activity",
-    "gender": "BOY",
-    "imagesrc": "/sa/jeferey.jpg"
+    "imagesrc": "/member/properties/christian.webp"
   },
   {
     "id": "tech-1",
-    "name": "Valentino Manuel G.",
+    "name": "Bryan Fernando Dinata",
     "role": "COORDINATOR",
-    "division": "Technology",
+    "division": "Technology Division",
     "gender": "BOY",
-    "imagesrc": "/tech/valen.jpg"
+    "imagesrc": "/member/tech/bryan.webp"
   },
   {
     "id": "tech-2",
-    "name": "Bryan Fernando D.",
+    "name": "Alvaro Grevi Kumesan",
     "role": "MEMBER",
-    "division": "Technology",
+    "division": "Technology Division",
     "gender": "BOY",
-    "imagesrc": "/tech/bryan.jpg"
+    "imagesrc": "/member/tech/grevi.webp"
   },
   {
     "id": "tech-3",
-    "name": "Obie Zuriel",
+    "name": "Louis Yuriel Saputra",
     "role": "MEMBER",
-    "division": "Technology",
+    "division": "Technology Division",
     "gender": "BOY",
-    "imagesrc": "/tech/obie.jpg"
+    "imagesrc": "/member/tech/yuriel.webp"
   },
   {
-    "id": "tech-4",
-    "name": "Felix Richardo",
-    "role": "MEMBER",
-    "division": "Technology",
-    "gender": "BOY",
-    "imagesrc": "/tech/felix.jpg"
+    "id": "pdd-design-1",
+    "name": "Clarice Harijanto",
+    "role": "COORDINATOR",
+    "division": "PDD Design Division",
+    "gender": "GIRL",
+    "imagesrc": "/member/pdddesign/clarice.webp"
   },
   {
-    "id": "tech-5",
-    "name": "Nicholas Leroy K.",
+    "id": "pdd-design-2",
+    "name": "Felicia Angeline Tanujaya",
     "role": "MEMBER",
-    "division": "Technology",
+    "division": "PDD Design Division",
+    "gender": "GIRL",
+    "imagesrc": "/member/pdddesign/felicia.webp"
+  },
+  {
+    "id": "pdd-design-3",
+    "name": "Farah 'Ufairah",
+    "role": "MEMBER",
+    "division": "PDD Design Division",
+    "gender": "GIRL",
+    "imagesrc": "/placeholder/person.png"
+  },
+  {
+    "id": "pdd-design-4",
+    "name": "Beneedrick Lingadi",
+    "role": "MEMBER",
+    "division": "PDD Design Division",
     "gender": "BOY",
-    "imagesrc": "/tech/nicho.jpg"
+    "imagesrc": "/member/pdddesign/beneedrick.webp"
+  },
+  {
+    "id": "pdd-dokum-1",
+    "name": "Sean Lawton",
+    "role": "COORDINATOR",
+    "division": "PDD Documentation Division",
+    "gender": "BOY",
+    "imagesrc": "/member/pdddocum/sean.webp"
+  },
+  {
+    "id": "pdd-dokum-2",
+    "name": "Darren Wibisono",
+    "role": "MEMBER",
+    "division": "PDD Documentation Division",
+    "gender": "BOY",
+    "imagesrc": "/member/pdddocum/darren.webp"
+  },
+  {
+    "id": "pdd-dokum-3",
+    "name": "Jonathan Kevin Devano",
+    "role": "MEMBER",
+    "division": "PDD Documentation Division",
+    "gender": "BOY",
+    "imagesrc": "/member/pdddocum/jonathan.webp"
+  },
+  {
+    "id": "pdd-dokum-4",
+    "name": "Ervanthe Daniel Layskie",
+    "role": "MEMBER",
+    "division": "PDD Documentation Division",
+    "gender": "BOY",
+    "imagesrc": "/member/pdddocum/ervanthe.webp"
   }
 ]

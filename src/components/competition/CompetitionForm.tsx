@@ -349,15 +349,16 @@ export default function CompetitionForm({ mode, data }: CompetitionFormProps) {
               <UploadWidget
                 onUploadSuccess={handleImageUpload}
                 folder="competitions"
-                allowedFormats={["png", "jpeg", "jpg", "webp"]}
+                allowedFormats={["png", "jpeg", "jpg", "webp", "heic", "heif"]}
               />
               {imageUrl && (
                 <div className="flex items-center gap-4 p-3 bg-[#F5D2A4] border-2 border-black rounded-xl shadow-inner">
                   <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-black relative shrink-0 shadow-sm">
                     <Image
-                      src={imageUrl}
+                      src={imageUrl.replace(/\.(heic|heif)$/i, ".webp")}
                       alt="Uploaded cover"
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                   </div>

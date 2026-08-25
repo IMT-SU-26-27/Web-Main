@@ -12,7 +12,7 @@ interface AchievementFeaturedCarouselProps {
 export default function AchievementFeaturedCarousel({
   achievements,
 }: AchievementFeaturedCarouselProps) {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1025);
   const itemsPerPage = isMobile ? 2 : 3;
   const totalPages = Math.ceil(achievements.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState<number>(0);

@@ -7,16 +7,21 @@ import { Competition } from "@/types/service/competition";
 import gsap from "gsap";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 interface CompetitionsSearchProps {
   competitions: Competition[];
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE_DESKTOP = 8;
+const ITEMS_PER_PAGE_MOBILE = 4;
 
 export default function CompetitionsSearch({
   competitions,
 }: CompetitionsSearchProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? ITEMS_PER_PAGE_MOBILE : ITEMS_PER_PAGE_DESKTOP;
 
   // Animate cards on page change or initial mount
   const animateCards = () => {
@@ -36,7 +41,7 @@ export default function CompetitionsSearch({
 
   useEffect(() => {
     animateCards();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="z-10 w-full" id="all-competitions">
@@ -49,7 +54,7 @@ export default function CompetitionsSearch({
       >
         {(filteredCompetitions) => {
           const totalPages = Math.ceil(
-            filteredCompetitions.length / ITEMS_PER_PAGE
+            filteredCompetitions.length / itemsPerPage
           );
           const safeCurrentPage = Math.min(
             Math.max(currentPage, 1),
@@ -57,8 +62,8 @@ export default function CompetitionsSearch({
           );
 
           const paginatedCompetitions = filteredCompetitions.slice(
-            (safeCurrentPage - 1) * ITEMS_PER_PAGE,
-            safeCurrentPage * ITEMS_PER_PAGE
+            (safeCurrentPage - 1) * itemsPerPage,
+            safeCurrentPage * itemsPerPage
           );
 
           const handlePageChange = (newPage: number) => {
@@ -94,7 +99,7 @@ export default function CompetitionsSearch({
 
               {filteredCompetitions.length === 0 && (
                 <p className="text-center text-[#FFF5E3] font-cinzel text-lg mt-8">
-                  No competitions found matching your search.
+                  No competitions found.
                 </p>
               )}
 

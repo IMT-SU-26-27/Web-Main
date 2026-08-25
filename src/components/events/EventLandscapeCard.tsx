@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CldImage } from "next-cloudinary";
 import { Event } from "@/types/service/event";
-import { MdCalendarToday, MdEvent } from "react-icons/md";
+import { MdCalendarToday } from "react-icons/md";
 
 interface EventLandscapeCardProps {
   event: Event;

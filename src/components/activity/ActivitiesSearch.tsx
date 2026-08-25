@@ -7,13 +7,16 @@ import { Activity, Category } from "@prisma/client";
 import gsap from "gsap";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 interface ActivitiesSearchProps {
   activities: Activity[];
   categories: Category[];
   confirmApply?: (onConfirm: () => Promise<void>) => void;
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE_DESKTOP = 8;
+const ITEMS_PER_PAGE_MOBILE = 4;
 
 export default function ActivitiesSearch({
   activities,
@@ -21,6 +24,8 @@ export default function ActivitiesSearch({
   categories,
 }: ActivitiesSearchProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? ITEMS_PER_PAGE_MOBILE : ITEMS_PER_PAGE_DESKTOP;
 
   // Transform enum categories to CategoryFilter format
   const categoryFilters = categories.map((category, index) => ({
@@ -46,7 +51,7 @@ export default function ActivitiesSearch({
 
   useEffect(() => {
     animateCards();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="z-10 w-full" id="all-activities">
@@ -60,7 +65,7 @@ export default function ActivitiesSearch({
       >
         {(filteredActivities) => {
           const totalPages = Math.ceil(
-            filteredActivities.length / ITEMS_PER_PAGE
+            filteredActivities.length / itemsPerPage
           );
           const safeCurrentPage = Math.min(
             Math.max(currentPage, 1),
@@ -68,8 +73,8 @@ export default function ActivitiesSearch({
           );
 
           const paginatedActivities = filteredActivities.slice(
-            (safeCurrentPage - 1) * ITEMS_PER_PAGE,
-            safeCurrentPage * ITEMS_PER_PAGE
+            (safeCurrentPage - 1) * itemsPerPage,
+            safeCurrentPage * itemsPerPage
           );
 
           const handlePageChange = (newPage: number) => {
@@ -107,7 +112,7 @@ export default function ActivitiesSearch({
 
               {filteredActivities.length === 0 && (
                 <p className="text-center text-[#FFF5E3] font-cinzel text-lg mt-8">
-                  No activities found matching your search.
+                  No activities found.
                 </p>
               )}
 

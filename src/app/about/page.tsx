@@ -1,7 +1,10 @@
 import React from "react";
-import Image from "next/image";
 import CommunityServicesSection from "@/components/about/CommunityServicesSection";
+import VisionMissionSection from "@/components/about/VisionMissionSection";
 import type { Metadata } from "next";
+import BigWaves from "@/components/home/BigWaves";
+import TitleDivider from "@/components/TitleDivider";
+import { MdInfo } from "react-icons/md";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -10,25 +13,15 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <section className="flex flex-col justify-center w-full items-center pt-20 pb-16 md:pt-28 md:pb-24 px-4 sm:px-8 md:px-12 overflow-x-hidden gap-6 sm:gap-10">
-      <Image
-        src={"/about/about-us-hero.webp"}
-        alt="About Us"
-        width={1000}
-        height={500}
-        draggable={false}
-        priority
-        className="h-auto w-[92%] sm:w-[85%] md:w-[75%] lg:w-[70%] max-w-5xl"
+    <div className="relative z-4 select-none overflow-hidden flex px-4 sm:px-8 md:px-16 lg:px-24 gap-8 sm:gap-12 flex-col items-center justify-center min-h-[90vh] pt-0 w-full overflow-x-hidden">
+      <BigWaves extraClassName="rotate-x-180" />
+      <TitleDivider
+        title="ABOUT US"
+        icon={<MdInfo />}
       />
       <CommunityServicesSection />
-      <Image
-        src={"/about/vision-mission.svg"}
-        alt="Vision & Mission"
-        width={1000}
-        height={600}
-        draggable={false}
-        className="h-auto w-[92%] sm:w-[85%] md:w-[75%] lg:w-[70%] max-w-5xl"
-      />
-    </section>
+      <VisionMissionSection />
+      <BigWaves extraClassName="" />
+    </div>
   );
 }

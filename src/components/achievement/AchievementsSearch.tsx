@@ -7,16 +7,21 @@ import { Achievement } from "@/types/service/achievement";
 import gsap from "gsap";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 interface AchievementsSearchProps {
   achievements: Achievement[];
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE_DESKTOP = 8;
+const ITEMS_PER_PAGE_MOBILE = 4;
 
 export default function AchievementsSearch({
   achievements,
 }: AchievementsSearchProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? ITEMS_PER_PAGE_MOBILE : ITEMS_PER_PAGE_DESKTOP;
 
   // Animate cards on page change or initial mount
   const animateCards = () => {
@@ -36,7 +41,7 @@ export default function AchievementsSearch({
 
   useEffect(() => {
     animateCards();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="z-10 w-full" id="all-achievements">
@@ -51,7 +56,7 @@ export default function AchievementsSearch({
       >
         {(filteredAchievements) => {
           const totalPages = Math.ceil(
-            filteredAchievements.length / ITEMS_PER_PAGE
+            filteredAchievements.length / itemsPerPage
           );
           const safeCurrentPage = Math.min(
             Math.max(currentPage, 1),
@@ -59,8 +64,8 @@ export default function AchievementsSearch({
           );
 
           const paginatedAchievements = filteredAchievements.slice(
-            (safeCurrentPage - 1) * ITEMS_PER_PAGE,
-            safeCurrentPage * ITEMS_PER_PAGE
+            (safeCurrentPage - 1) * itemsPerPage,
+            safeCurrentPage * itemsPerPage
           );
 
           const handlePageChange = (newPage: number) => {
@@ -96,7 +101,7 @@ export default function AchievementsSearch({
 
               {filteredAchievements.length === 0 && (
                 <p className="text-center text-[#FFF5E3] font-cinzel text-lg mt-8">
-                  No achievements found matching your search.
+                  No achievements found.
                 </p>
               )}
 

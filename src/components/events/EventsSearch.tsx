@@ -7,14 +7,19 @@ import { Event } from "@/types/service/event";
 import gsap from "gsap";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 interface EventsSearchProps {
   events: Event[];
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE_DESKTOP = 8;
+const ITEMS_PER_PAGE_MOBILE = 4;
 
 export default function EventsSearch({ events }: EventsSearchProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? ITEMS_PER_PAGE_MOBILE : ITEMS_PER_PAGE_DESKTOP;
 
   // Animate cards on page change or initial mount
   const animateCards = () => {
@@ -34,7 +39,7 @@ export default function EventsSearch({ events }: EventsSearchProps) {
 
   useEffect(() => {
     animateCards();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="z-10 w-full" id="all-events">
@@ -46,15 +51,15 @@ export default function EventsSearch({ events }: EventsSearchProps) {
         placeholder="Search events..."
       >
         {(filteredEvents) => {
-          const totalPages = Math.ceil(filteredEvents.length / ITEMS_PER_PAGE);
+          const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
           const safeCurrentPage = Math.min(
             Math.max(currentPage, 1),
             Math.max(totalPages, 1)
           );
 
           const paginatedEvents = filteredEvents.slice(
-            (safeCurrentPage - 1) * ITEMS_PER_PAGE,
-            safeCurrentPage * ITEMS_PER_PAGE
+            (safeCurrentPage - 1) * itemsPerPage,
+            safeCurrentPage * itemsPerPage
           );
 
           const handlePageChange = (newPage: number) => {
@@ -87,7 +92,7 @@ export default function EventsSearch({ events }: EventsSearchProps) {
 
               {filteredEvents.length === 0 && (
                 <p className="text-center text-[#FFF5E3] font-cinzel text-lg mt-8">
-                  No events found matching your search.
+                  No events found.
                 </p>
               )}
 

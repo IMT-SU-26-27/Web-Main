@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { ActionResult } from "@/types/action";
 import {
   Achievement,
-  AchievementData,
   AchievementSchema,
 } from "@/types/service/achievement";
 
@@ -45,12 +44,14 @@ export async function createAchievement(
 ): Promise<ActionResult<Achievement>> {
   try {
     const rawData = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      imageUrl: formData.get("imageUrl") as string,
-      imagePublicId: formData.get("imagePublicId") as string,
-      teamInfo: formData.get("teamInfo") as string,
-      featured: formData.get("featured") === "on" ? true : false,
+      title: (formData.get("title") as string) || "",
+      description: (formData.get("description") as string) || "",
+      imageUrl: (formData.get("imageUrl") as string) || null,
+      imagePublicId: (formData.get("imagePublicId") as string) || null,
+      teamInfo: (formData.get("teamInfo") as string) || "",
+      featured:
+        formData.get("featured") === "true" ||
+        formData.get("featured") === "on",
     };
 
     const validationResult = AchievementSchema.safeParse(rawData);
@@ -83,7 +84,10 @@ export async function createAchievement(
     console.error("Failed to create achievement:", error);
     return {
       success: false,
-      error: "Failed to create achievement. Please try again.",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to create achievement. Please try again.",
     };
   }
 }
@@ -91,15 +95,17 @@ export async function createAchievement(
 export async function updateAchievement(
   id: string,
   formData: FormData
-): Promise<ActionResult<AchievementData>> {
+): Promise<ActionResult<Achievement>> {
   try {
     const rawData = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      imageUrl: formData.get("imageUrl") as string,
-      imagePublicId: formData.get("imagePublicId") as string,
-      teamInfo: formData.get("teamInfo") as string,
-      featured: formData.get("featured") === "on" ? true : false,
+      title: (formData.get("title") as string) || "",
+      description: (formData.get("description") as string) || "",
+      imageUrl: (formData.get("imageUrl") as string) || null,
+      imagePublicId: (formData.get("imagePublicId") as string) || null,
+      teamInfo: (formData.get("teamInfo") as string) || "",
+      featured:
+        formData.get("featured") === "true" ||
+        formData.get("featured") === "on",
     };
 
     const validationResult = AchievementSchema.safeParse(rawData);
@@ -121,6 +127,9 @@ export async function updateAchievement(
     });
 
     revalidatePath("/dashboard/pr");
+    revalidatePath("/achievements");
+    revalidatePath(`/achievements/${id}`);
+    revalidatePath(`/dashboard/pr/${id}/edit`);
 
     return {
       success: true,
@@ -131,7 +140,10 @@ export async function updateAchievement(
     console.error("Failed to update achievement:", error);
     return {
       success: false,
-      error: "Failed to update achievement. Please try again.",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to update achievement. Please try again.",
     };
   }
 }

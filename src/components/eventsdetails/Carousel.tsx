@@ -28,10 +28,31 @@ export default function Carousel({ eventId }: CarouselProps) {
         { src: "/event/technocamp/Carousel-3.jpg", alt: "Carousel Image 3" },
         { src: "/event/technocamp/Carousel-4.jpg", alt: "Carousel Image 4" },
       ],
+      hackfest: [
+        { src: "/event/hackfest/hackfest.webp", alt: "Hackfest Cover" },
+        { src: "/event/hackfest/hackfest-carousel-1.webp", alt: "Hackfest Image 1" },
+        { src: "/event/hackfest/hackfest-carousel-2.webp", alt: "Hackfest Image 2" },
+        { src: "/event/hackfest/hackfest-carousel-3.webp", alt: "Hackfest Image 3" },
+      ],
+      "red-carpet-night": [
+        { src: "/event/red-carpet-night/rcn.webp", alt: "Red Carpet Night Cover" },
+        { src: "/event/red-carpet-night/rcn-1.webp", alt: "Red Carpet Night Image 1" },
+        { src: "/event/red-carpet-night/rcn-2.webp", alt: "Red Carpet Night Image 2" },
+        { src: "/event/red-carpet-night/rcn-3.webp", alt: "Red Carpet Night Image 3" },
+      ],
+      rcn: [
+        { src: "/event/red-carpet-night/rcn.webp", alt: "Red Carpet Night Cover" },
+        { src: "/event/red-carpet-night/rcn-1.webp", alt: "Red Carpet Night Image 1" },
+        { src: "/event/red-carpet-night/rcn-2.webp", alt: "Red Carpet Night Image 2" },
+        { src: "/event/red-carpet-night/rcn-3.webp", alt: "Red Carpet Night Image 3" },
+      ],
     };
+
+    const normalized = eventId.toLowerCase().trim().replace(/_/g, "-");
 
     // Return slides sesuai eventId, atau default jika tidak ditemukan
     return (
+      slideData[normalized] ||
       slideData[eventId] || [
         { src: "/eventsdetails/template.svg", alt: "Event Image 1" },
         { src: "/eventsdetails/template.svg", alt: "Event Image 2" },

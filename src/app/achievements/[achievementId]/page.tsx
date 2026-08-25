@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { CldImage } from "next-cloudinary";
+import CloudinaryImage from "@/components/CloudinaryImage";
 import { getAchievementById } from "@/lib/service/achievement";
 import NotFound from "./not-found";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export default async function AchievementDetails(props: {
               {/* Actual Image Goes Here */}
               <div className="bg-gray-300 w-full h-full relative overflow-hidden">
                 {achievement.imagePublicId ? (
-                  <CldImage
+                  <CloudinaryImage
                     draggable={false}
                     loading="lazy"
                     src={achievement.imagePublicId}
