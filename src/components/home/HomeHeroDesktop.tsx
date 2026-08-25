@@ -10,9 +10,18 @@ export default function HomeHeroDesktop() {
                     <Image draggable={false} src={"/home/left-side.webp"} className='-rotate-z-1 sm:w-[80%] lg:w-full h-auto' alt='left psp' width={300} height={300}></Image>
                 </div>
                 <div className="bg-[#300000] relative flex justify-center p-8 w-full h-full items-center">
-                    <div className='relative z-1 bg-[url("/home/rcn.webp")] bg-cover bg-center w-full h-full'>
-                        <div className='absolute w-full h-full bg-gradient-to-b from-[#FFFFFF]/27 via-[#4C6DB6]/80 to-[#1E4AAA]/90'></div>
-                        <div className='relative w-full h-full flex flex-col justify-center items-center'>
+                    <div className='relative z-1 w-full h-full overflow-hidden'>
+                        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                            <iframe
+                                className="absolute top-1/2 left-1/2 w-[160%] h-[160%] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+                                src="https://www.youtube-nocookie.com/embed/AqAFkRRcGNc?autoplay=1&mute=1&loop=1&playlist=AqAFkRRcGNc&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&disablekb=1"
+                                title="Hero Background Video"
+                                allow="autoplay; encrypted-media"
+                                allowFullScreen
+                            />
+                        </div>
+                        <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-[#FFFFFF]/27 via-[#4C6DB6]/80 to-[#1E4AAA]/90 z-1 pointer-events-none'></div>
+                        <div className='relative z-2 w-full h-full flex flex-col justify-center items-center'>
                             <div className='relative w-[90%] h-fit flex flex-col justify-center items-center'>
                                 <Image draggable={false} src={"/home/welcome-text.svg"} alt='welcome text' width={100} height={100} className='sm:w-[80%] lg:w-1/2 h-auto'></Image>
                                 <Image draggable={false} src={"/home/to-su-text.svg"} alt='to su text' width={100} height={100} className='sm:w-[70%] lg:w-1/3 h-auto'></Image>

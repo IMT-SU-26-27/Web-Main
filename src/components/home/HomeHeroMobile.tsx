@@ -7,9 +7,18 @@ export default function HomeHeroMobile() {
         <div className='relative bg-gradient-to-b from-[#ABC1FC] to-[#7397F6] rounded-tr-2xl rounded-br-[8rem] sm:rounded-br-[10rem] p-3 pb-6 w-[92%] max-w-md flex md:hidden justify-center items-center my-2'>
             <div className='bg-light-blue w-full flex gap-4 flex-col justify-start items-center p-4 sm:p-6 rounded-tr-xl rounded-br-[7.5rem] sm:rounded-br-[9.5rem]'>
                 <div className='bg-[#300000] relative flex justify-center p-2 w-full h-[20rem] sm:h-[22rem] items-center rounded-lg overflow-hidden'>
-                    <div className='relative z-1 bg-[url("/home/rcn.webp")] bg-cover bg-center w-full h-full rounded-md overflow-hidden'>
-                        <div className='absolute w-full h-full bg-gradient-to-b from-[#FFFFFF]/27 via-[#4C6DB6]/80 to-[#1E4AAA]/90'></div>
-                        <div className='relative w-full h-full flex flex-col justify-center items-center'>
+                    <div className='relative z-1 w-full h-full rounded-md overflow-hidden'>
+                        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                            <iframe
+                                className="absolute top-1/2 left-1/2 w-[220%] h-[220%] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+                                src="https://www.youtube-nocookie.com/embed/AqAFkRRcGNc?autoplay=1&mute=1&loop=1&playlist=AqAFkRRcGNc&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&disablekb=1"
+                                title="Hero Background Video"
+                                allow="autoplay; encrypted-media"
+                                allowFullScreen
+                            />
+                        </div>
+                        <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-[#FFFFFF]/27 via-[#4C6DB6]/80 to-[#1E4AAA]/90 z-1 pointer-events-none'></div>
+                        <div className='relative z-2 w-full h-full flex flex-col justify-center items-center'>
                             <div className='relative w-[90%] h-fit flex flex-col justify-center items-center'>
                                 <Image src={"/home/welcome-text.svg"} alt='welcome text' width={100} height={100} className='w-[70%] h-auto'></Image>
                                 <Image src={"/home/to-su-text.svg"} alt='to su text' width={100} height={100} className='w-1/3 h-auto'></Image>
