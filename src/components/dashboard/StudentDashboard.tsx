@@ -45,6 +45,8 @@ export default function StudentDashboardClient({
   activities,
   competitions,
   stats,
+  activityStats,
+  competitionStats,
 }: StudentDashboardClientProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -67,63 +69,15 @@ export default function StudentDashboardClient({
             onEditClick={() => setIsEditModalOpen(true)}
           />
 
-          {/* 2. Statistics Cards with Wooden Parchment Styling */}
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {/* Total Applications */}
-            <div className="group bg-[#7E3E11] border-2 border-black rounded-2xl p-2 sm:p-2.5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-              <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center w-full h-full">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#164098] mb-1 font-cinzel">
-                  {stats.total}
-                </div>
-                <div className="text-xs sm:text-sm font-extrabold text-[#541C16] uppercase tracking-wider font-cinzel">
-                  Total Applications
-                </div>
-              </div>
-            </div>
-
-            {/* Approved */}
-            <div className="group bg-[#7E3E11] border-2 border-black rounded-2xl p-2 sm:p-2.5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-              <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center w-full h-full">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1A773C] mb-1 font-cinzel">
-                  {stats.approved}
-                </div>
-                <div className="text-xs sm:text-sm font-extrabold text-[#541C16] uppercase tracking-wider font-cinzel">
-                  Approved
-                </div>
-              </div>
-            </div>
-
-            {/* Pending */}
-            <div className="group bg-[#7E3E11] border-2 border-black rounded-2xl p-2 sm:p-2.5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-              <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center w-full h-full">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#B87106] mb-1 font-cinzel">
-                  {stats.pending}
-                </div>
-                <div className="text-xs sm:text-sm font-extrabold text-[#541C16] uppercase tracking-wider font-cinzel">
-                  Pending
-                </div>
-              </div>
-            </div>
-
-            {/* Rejected */}
-            <div className="group bg-[#7E3E11] border-2 border-black rounded-2xl p-2 sm:p-2.5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-              <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center w-full h-full">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#A81E1E] mb-1 font-cinzel">
-                  {stats.rejected}
-                </div>
-                <div className="text-xs sm:text-sm font-extrabold text-[#541C16] uppercase tracking-wider font-cinzel">
-                  Rejected
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 3. Applications Board with Wooden Parchment Reference Design */}
+          {/* 2. Applications Board with Embedded Statistics Inside */}
           <ApplicationsBoard
             activityApplications={activityApplications}
             competitionApplications={competitionApplications}
             activities={activities}
             competitions={competitions}
+            stats={stats}
+            activityStats={activityStats}
+            competitionStats={competitionStats}
           />
         </div>
 

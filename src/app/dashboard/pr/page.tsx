@@ -1,23 +1,27 @@
-import { getAchievements } from '@/lib/service/achievement'
-import DashboardSearch from '@/components/dashboard/DashboardSearch';
-import DashboardBackground from '@/components/dashboard/DashboardBackground';
-import { deleteAchievement } from '@/lib/service/achievement';
+import React from "react";
+import { getAchievements } from "@/lib/service/achievement";
+import DashboardSearch from "@/components/dashboard/DashboardSearch";
+import { deleteAchievement } from "@/lib/service/achievement";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Achievements - PR Dashboard",
+  description: "Manage public relations student achievements.",
+};
 
 async function AchievementDashboard() {
   const achievements = await getAchievements();
 
   return (
-    <>   
-      <div className='h-[6.5vh]'></div>
-      <div className="overflow-hidden relative flex flex-col items-center justify-start min-h-[93.5vh] w-full bg-[url('/backgrounds/background-paper.png')] bg-cover bg-center m-0 p-0">
-        {/* decor image */}
-        <DashboardBackground />
-
-        {/* Achievement search */}
-        <DashboardSearch items={achievements} deleteItem={deleteAchievement} label='Achievement' urlForEdit='/dashboard/pr'/>
-      </div>
-    </>
-  )
+    <div className="w-full h-full flex-1 flex flex-col items-center justify-start m-0 p-0">
+      <DashboardSearch
+        items={achievements}
+        deleteItem={deleteAchievement}
+        label="Achievement"
+        urlForEdit="/dashboard/pr"
+      />
+    </div>
+  );
 }
 
-export default AchievementDashboard
+export default AchievementDashboard;

@@ -29,13 +29,14 @@ export default function AchievementItemCard({
     description.length > 90 ? description.slice(0, 90) + "..." : description;
 
   return (
-    <div
+    <Link
+      href={`/achievements/${achievement.id}`}
       onMouseLeave={() => {
         setSwinging(true);
         setTimeout(() => setSwinging(false), 700); // match swing duration (in global.css ; .swing-effect)
       }}
       style={{ backgroundColor: accentColor }}
-      className={`transform flex flex-col justify-between transition-all duration-300 relative w-full max-w-[320px] sm:w-[320px] h-[460px] mt-8 text-left hover:rotate-[1.5deg] hover:origin-top overflow-hidden select-none ${
+      className={`transform flex flex-col justify-between transition-all duration-300 relative w-full max-w-[320px] sm:w-[320px] h-[460px] mt-8 text-left hover:rotate-[1.5deg] hover:origin-top overflow-hidden select-none cursor-pointer ${
         swinging ? "swing-effect" : ""
       } ${className}`}
     >
@@ -107,8 +108,8 @@ export default function AchievementItemCard({
       </div>
 
       {/* Bottom docked bar with left-to-right swipe animation */}
-      <Link href={`/achievements/${achievement.id}`} className="w-full mt-auto">
-        <div className="group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] bg-black/40 hover:bg-black/50 cursor-pointer">
+      <div className="w-full mt-auto">
+        <div className="group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] bg-black/40 group-hover:bg-black/50">
           <span
             className="absolute inset-0 bg-black/30 transform -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
             aria-hidden="true"
@@ -117,7 +118,7 @@ export default function AchievementItemCard({
             SEE DETAILS
           </span>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }

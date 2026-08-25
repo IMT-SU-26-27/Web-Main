@@ -1,13 +1,20 @@
 "use client";
 
+import React, { useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createAchievement, updateAchievement } from "@/lib/service/achievement";
+import {
+  createAchievement,
+  updateAchievement,
+} from "@/lib/service/achievement";
 import { AchievementFormProps } from "@/types/service/achievement";
 import { UploadWidget } from "../utils/UploadWidget";
 
-export default function AchievementForm({ mode, data }: AchievementFormProps) {
+export default function AchievementForm({
+  mode,
+  data,
+}: AchievementFormProps) {
   /* States */
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
@@ -16,6 +23,7 @@ export default function AchievementForm({ mode, data }: AchievementFormProps) {
   const [imagePublicId, setImagePublicId] = useState<string>(
     data?.imagePublicId || ""
   );
+  const [featured, setFeatured] = useState<boolean>(data?.featured || false);
 
   const router = useRouter();
 
@@ -31,25 +39,19 @@ export default function AchievementForm({ mode, data }: AchievementFormProps) {
     setSuccess("");
 
     try {
-      if (imageUrl) {
-        formData.append("imageUrl", imageUrl);
-      }
+      formData.set("featured", String(featured));
 
+      if (imageUrl) {
+        formData.set("imageUrl", imageUrl);
+      }
       if (imagePublicId) {
-        formData.append("imagePublicId", imagePublicId);
+        formData.set("imagePublicId", imagePublicId);
       }
 
       if (mode === "create") {
-        /* Create Achievement */
         const result = await createAchievement(formData);
         if (result.success) {
           setSuccess(result.message || "Achievement created successfully!");
-          const form = document.getElementById(
-            "achievement-form"
-          ) as HTMLFormElement;
-          form?.reset();
-          setImageUrl("");
-          setImagePublicId("");
           setTimeout(() => {
             router.push("/dashboard/pr");
           }, 500);
@@ -57,7 +59,6 @@ export default function AchievementForm({ mode, data }: AchievementFormProps) {
           setErrors([result.error || "Failed to create achievement"]);
         }
       } else if (mode === "edit" && data) {
-        /* Edit Achievement */
         const result = await updateAchievement(data.id, formData);
         if (result.success) {
           setSuccess(result.message || "Achievement updated successfully!");
@@ -77,190 +78,205 @@ export default function AchievementForm({ mode, data }: AchievementFormProps) {
     }
   }
 
-  /* Render the Form */
+  const title =
+    mode === "create" ? "CREATE ACHIEVEMENT" : "EDIT ACHIEVEMENT";
+
   return (
-    /* Form Container */
-    <div className="w-full max-w-2xl mx-auto p-8 border-2 border-black rounded-2xl">
-      {/* Success Message */}
-      {success && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-          {success}
-        </div>
-      )}
+    <div className="relative z-2 bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 md:p-8 w-full flex-1 flex flex-col justify-start items-center shadow-2xl mt-4 select-none">
+      {/* Top Centered Wooden Plaque Header */}
+      <div className="font-cinzel py-1 sm:py-1.5 md:py-2 px-6 sm:px-10 md:px-14 rounded-lg sm:rounded-xl font-bold text-white border-black text-sm sm:text-lg md:text-2xl lg:text-3xl absolute z-10 -top-4 sm:-top-5 md:-top-6 left-1/2 -translate-x-1/2 bg-[#BF6432] border-2 shadow-md flex items-center justify-center whitespace-nowrap">
+        <span className="font-outline-2 sm:font-outline-4 z-1 absolute text-[#7E3E11]">
+          {title}
+        </span>
+        <p className="relative z-2">{title}</p>
+      </div>
 
-      {/* Error Message */}
-      {errors.length > 0 && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          <ul className="list-disc list-inside">
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Achievement Form */}
-      <form
-        id="achievement-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          handleSubmit(formData);
-        }}
-        className={`space-y-4 ${
-          isSubmitting ? "opacity-60 pointer-events-none" : ""
-        }`}
-      >
-        <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700 mb-1"
+      {/* Inner Parchment Panel */}
+      <div className="flex flex-col z-1 bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] rounded-xl border-2 border-black w-full flex-1 p-4 sm:p-6 md:p-8 mt-4 sm:mt-2">
+        {/* Back link */}
+        <div className="mb-4">
+          <Link
+            href="/dashboard/pr"
+            className="inline-flex items-center gap-1.5 font-cinzel font-bold text-xs sm:text-sm text-[#8C4A2F] hover:text-[#541C16] transition-colors"
           >
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            defaultValue={data?.title || ""}
-            required
-            maxLength={100}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter achievement title"
-          />
+            ← Back to Achievements
+          </Link>
         </div>
 
-        <div>
-          <label
-            htmlFor="teamInfo"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Team Info
-          </label>
-          <input
-            type="text"
-            id="teamInfo"
-            name="teamInfo"
-            defaultValue={data?.teamInfo || ""}
-            required
-            maxLength={100}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter achievement team info"
-          />
-        </div>
-
-        {/* Description Input */}
-        <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            defaultValue={data?.description || ""}
-            required
-            maxLength={500}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
-            placeholder="Enter achievement description"
-          />
-        </div>
-
-        {/* Switch isFeatured */}
-        <div>
-          <label
-            htmlFor="featured"
-            className="flex items-center cursor-pointer"
-          >
-            <span className="mr-3 text-sm font-medium text-gray-700">
-              Featured
-            </span>
-            <div className="relative">
-              <input
-                type="checkbox"
-                id="featured"
-                name="featured"
-                className="sr-only peer"
-                defaultChecked={data?.featured}
-              />
-              <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 peer-checked:bg-blue-600 transition-all"></div>
-              <div className="absolute top-0.5 left-[2px] bg-white border-gray-300 border rounded-full h-5 w-5 peer-checked:translate-x-full peer-checked:border-white transition-all"></div>
-            </div>
-          </label>
-        </div>
-
-
-        {/* Cover Image Input */}
-        <div>
-          <label
-            htmlFor="cover_image"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Cover Image
-          </label>
-          <div className="space-y-3">
-            <UploadWidget onUploadSuccess={handleImageUpload} folder="achievements" allowedFormats={["png", "jpeg", "jpg"]}/>
-            {imageUrl && (
-              <div className="flex items-center space-x-3">
-                <Image
-                  width={80}
-                  height={80}
-                  src={imageUrl}
-                  alt="Uploaded cover"
-                  className="w-20 h-20 object-cover rounded-md border"
-                />
-                <button
-                  type="button"
-                  onClick={() => setImageUrl("")}
-                  className="text-red-600 hover:text-red-800 text-sm"
-                >
-                  Remove Image
-                </button>
-              </div>
-            )}
+        {/* Success Message */}
+        {success && (
+          <div className="mb-5 p-3.5 bg-[#D4EDDA] border-2 border-[#28A745] text-[#155724] rounded-xl font-cinzel font-bold text-xs sm:text-sm text-center">
+            {success}
           </div>
-        </div>
+        )}
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        {/* Error Message */}
+        {errors.length > 0 && (
+          <div className="mb-5 p-3.5 bg-[#FADBD8] border-2 border-[#C0392B] text-[#922B21] rounded-xl font-cinzel font-bold text-xs sm:text-sm">
+            <ul className="list-disc list-inside space-y-1">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Achievement Form */}
+        <form
+          id="achievement-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            handleSubmit(formData);
+          }}
+          className={`space-y-5 ${
+            isSubmitting ? "opacity-60 pointer-events-none" : ""
+          }`}
         >
-          {isSubmitting ? (
-            <span className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+          {/* Row 1: Title & Team Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="title"
+                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
               >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              {mode === "create" ? "Creating..." : "Updating..."}
-            </span>
-          ) : mode === "create" ? (
-            "Create Achievement"
-          ) : (
-            "Update Achievement"
-          )}
-        </button>
-      </form>
+                Achievement Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                defaultValue={data?.title || ""}
+                required
+                maxLength={100}
+                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
+                placeholder="e.g., 1st Place National Hackathon"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="teamInfo"
+                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
+              >
+                Team Info / Members
+              </label>
+              <input
+                type="text"
+                id="teamInfo"
+                name="teamInfo"
+                defaultValue={data?.teamInfo || ""}
+                required
+                maxLength={100}
+                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
+                placeholder="e.g., Team Alpha (Bryan, Sarah, Alex)"
+              />
+            </div>
+          </div>
+
+          {/* Description Input */}
+          <div>
+            <label
+              htmlFor="description"
+              className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              defaultValue={data?.description || ""}
+              required
+              rows={4}
+              className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner resize-vertical"
+              placeholder="Detailed summary of the achievement and competition context..."
+            />
+          </div>
+
+          {/* Featured Toggle */}
+          <div className="bg-[#F5D2A4] border-2 border-black rounded-xl p-3.5 sm:p-4 shadow-inner flex items-center justify-between">
+            <div>
+              <span className="font-cinzel font-black text-xs sm:text-sm text-[#541C16] block uppercase tracking-wide">
+                Featured Achievement
+              </span>
+              <span className="font-cinzel text-xs text-[#8C4A2F] block mt-0.5">
+                Highlight this achievement on the public homepage quest board
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setFeatured((prev) => !prev)}
+              className={`w-14 h-8 flex items-center rounded-full p-1 border-2 border-black transition-colors cursor-pointer ${
+                featured ? "bg-[#2E7D32]" : "bg-[#C8B6A6]"
+              }`}
+            >
+              <div
+                className={`bg-white w-5 h-5 rounded-full border border-black shadow-md transform transition-transform ${
+                  featured ? "translate-x-6" : "translate-x-0"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Cover Image Input */}
+          <div>
+            <label className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-2">
+              Achievement Image / Certificate
+            </label>
+            <div className="space-y-3">
+              <UploadWidget
+                onUploadSuccess={handleImageUpload}
+                folder="achievements"
+                allowedFormats={["png", "jpeg", "jpg", "webp"]}
+              />
+              {imageUrl && (
+                <div className="flex items-center gap-4 p-3 bg-[#F5D2A4] border-2 border-black rounded-xl shadow-inner">
+                  <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-black relative shrink-0 shadow-sm">
+                    <Image
+                      src={imageUrl}
+                      alt="Uploaded achievement cover"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImageUrl("");
+                      setImagePublicId("");
+                    }}
+                    className="bg-[#C0392B] hover:bg-[#a93226] text-white px-3 py-1.5 rounded-lg font-cinzel font-bold text-xs border-2 border-black shadow transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    Remove Image
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Submit & Cancel Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-3">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 bg-[#BF6432] hover:bg-[#a75427] text-white font-cinzel font-bold py-2.5 px-4 rounded-xl border-2 border-black shadow-md hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-xs sm:text-sm cursor-pointer"
+            >
+              {isSubmitting
+                ? "Saving..."
+                : mode === "create"
+                ? "Create Achievement"
+                : "Update Achievement"}
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push("/dashboard/pr")}
+              className="px-6 py-2.5 bg-[#E5C198] hover:bg-[#d6af84] text-[#541C16] font-cinzel font-bold rounded-xl border-2 border-black transition-all text-xs sm:text-sm cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

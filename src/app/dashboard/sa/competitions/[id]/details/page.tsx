@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { getCompetitionById } from "@/lib/service/competition";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import SkeletonLoader from "@/components/utils/SkeletonLoader";
 import Image from "next/image";
 import ClientDate from "@/components/utils/ClientDate";
-import ClientDateTime from "@/components/utils/ClientDateTime";
+import SkeletonLoader from "@/components/utils/SkeletonLoader";
+import { Suspense } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Competition Details - SA Dashboard",
+  description: "View competition details",
+};
 
 export default async function CompetitionDetailsPage(props: {
   params: Promise<{ id: string }>;
@@ -19,171 +24,104 @@ export default async function CompetitionDetailsPage(props: {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-[14vh] max-w-4xl">
-      {/* Back Navigation */}
-      <div className="mb-6">
-        <Link
-          href="/dashboard/competitions"
-          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
-        >
-          <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Back to Competitions
-        </Link>
-      </div>
-
-      {/* Main Content */}
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Header Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-12 text-white">
-          <div className="flex justify-between items-start">
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold mb-4">{competition.name}</h1>
-              <div className="flex items-center space-x-6 text-blue-100">
-                <div className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Created{" "}
-                  <ClientDate
-                    createdAt={competition.createdAt.toISOString()}
-                    format="full"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="w-full h-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 select-none">
+      {/* Outer Wooden Board Frame */}
+      <div className="relative z-2 bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 md:p-8 w-full flex-1 flex flex-col justify-start items-center shadow-2xl mt-4">
+        {/* Top Centered Wooden Plaque Header */}
+        <div className="font-cinzel py-1 sm:py-1.5 md:py-2 px-6 sm:px-10 md:px-14 rounded-lg sm:rounded-xl font-bold text-white border-black text-sm sm:text-lg md:text-2xl lg:text-3xl absolute z-10 -top-4 sm:-top-5 md:-top-6 left-1/2 -translate-x-1/2 bg-[#BF6432] border-2 shadow-md flex items-center justify-center whitespace-nowrap">
+          <span className="font-outline-2 sm:font-outline-4 z-1 absolute text-[#7E3E11]">
+            COMPETITION DETAILS
+          </span>
+          <p className="relative z-2">COMPETITION DETAILS</p>
         </div>
 
-        {/* Content Section */}
-        <div className="px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-              <div className="mb-8">
-                {/* image */}
+        {/* Inner Parchment Panel */}
+        <div className="flex flex-col z-1 bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] rounded-xl border-2 border-black w-full flex-1 p-4 sm:p-6 md:p-8 mt-4 sm:mt-2">
+          {/* Back Navigation */}
+          <div className="mb-4 flex items-center justify-between">
+            <Link
+              href="/dashboard/sa/competitions"
+              className="inline-flex items-center gap-1.5 font-cinzel font-bold text-xs sm:text-sm text-[#8C4A2F] hover:text-[#541C16] transition-colors"
+            >
+              ← Back to Competitions
+            </Link>
+
+            <Link
+              href={`/dashboard/sa/competitions/${competition.id}/edit`}
+              className="bg-[#BF6432] hover:bg-[#a75427] text-white px-4 py-1.5 rounded-lg text-xs font-cinzel font-bold border-2 border-black shadow transition-all hover:scale-105 active:scale-95"
+            >
+              Edit Competition
+            </Link>
+          </div>
+
+          {/* Details Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
+            {/* Main Info */}
+            <div className="lg:col-span-2 space-y-5">
+              {competition.imageUrl && (
                 <Suspense fallback={<SkeletonLoader />}>
-                  <div className="w-[300px] md:w-[500px] m-auto bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-0 rounded-xl shadow-md overflow-hidden">
+                  <div className="w-full max-h-80 rounded-xl overflow-hidden border-2 border-black relative shadow-inner bg-[#F5D2A4]">
                     <Image
-                      src={competition.imageUrl || "/placeholder/placeholder.png"}
-                      alt="Achievement"
-                      width={400} // matches your max width (can be adjusted)
-                      height={0} // optional: this can be omitted
-                      className="h-auto w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      src={competition.imageUrl}
+                      alt={competition.name}
+                      width={800}
+                      height={400}
+                      className="w-full h-auto max-h-80 object-cover"
                     />
                   </div>
                 </Suspense>
+              )}
 
-                <h2 className="text-xl font-semibold text-gray-900 my-4 mt-9">
-                  Description
-                </h2>
-                <div className="prose prose-gray max-w-none">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                    {competition.description}
-                  </p>
+              <div className="bg-[#F5D2A4] border-2 border-black rounded-xl p-5 shadow-inner">
+                <h1 className="font-cinzel font-black text-2xl text-[#541C16] mb-2 uppercase">
+                  {competition.name}
+                </h1>
+                <p className="font-cinzel text-xs text-[#8C4A2F] font-bold mb-4">
+                  Organizer: {competition.organizer} • Category: {competition.category}
+                </p>
+                <div className="font-cinzel text-xs sm:text-sm text-[#541C16] whitespace-pre-wrap leading-relaxed">
+                  {competition.description}
                 </div>
               </div>
 
-              {/* Competition Details */}
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Competition Information
-                </h2>
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <dt className="text-sm font-medium text-gray-500 mb-1">
-                        Activity ID
-                      </dt>
-                      <dd className="text-sm text-gray-900 font-mono bg-white px-2 py-1 rounded border">
-                        {competition.id}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-sm font-medium text-gray-500 mb-1">
-                        Last Updated
-                      </dt>
-                      <dd className="text-sm text-gray-900">
-                        <ClientDateTime
-                          dateTime={competition.updatedAt.toISOString()}
-                        />
-                      </dd>
-                    </div>
-                  </dl>
+              {competition.information && (
+                <div className="bg-[#F5D2A4] border-2 border-black rounded-xl p-5 shadow-inner">
+                  <h3 className="font-cinzel font-black text-sm text-[#541C16] mb-2 uppercase tracking-wide">
+                    Additional Information & Rules
+                  </h3>
+                  <div className="font-cinzel text-xs sm:text-sm text-[#541C16] whitespace-pre-wrap leading-relaxed">
+                    {competition.information}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="bg-gray-50 rounded-lg p-6 sticky top-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Quick Actions
+            {/* Sidebar Stats */}
+            <div className="space-y-4">
+              <div className="bg-[#F5D2A4] border-2 border-black rounded-xl p-5 shadow-inner space-y-3">
+                <h3 className="font-cinzel font-black text-sm text-[#541C16] uppercase tracking-wide border-b-2 border-black pb-2">
+                  Key Information
                 </h3>
-                <div className="space-y-3">
-                  <Link
-                    href={`/dashboard/competitions/${competition.id}/edit`}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                    Edit Competition
-                  </Link>
-
-                  <Link
-                    href="/dashboard/competitions"
-                    className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    View All Activities
-                  </Link>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h4 className="text-sm font-medium text-gray-900 mb-3">
-                    Quick Stats
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Status</span>
-                      <span className="text-green-600 font-medium">Active</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Created</span>
-                      <ClientDate
-                        createdAt={competition.createdAt.toISOString()}
-                        className="text-gray-900"
-                      />
-                    </div>
+                <div className="font-cinzel text-xs text-[#541C16] space-y-2">
+                  <div>
+                    <span className="font-bold text-[#8C4A2F] block">Type:</span>
+                    <span className="font-semibold">{competition.type}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#8C4A2F] block">Level:</span>
+                    <span className="font-semibold">{competition.level}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#8C4A2F] block">Start Date:</span>
+                    <ClientDate createdAt={competition.startDate.toISOString()} format="full" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#8C4A2F] block">End Date:</span>
+                    <ClientDate createdAt={competition.endDate.toISOString()} format="full" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#8C4A2F] block">Created:</span>
+                    <ClientDate createdAt={competition.createdAt.toISOString()} format="full" />
                   </div>
                 </div>
               </div>

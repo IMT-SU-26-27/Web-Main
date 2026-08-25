@@ -29,9 +29,16 @@ export async function createCompetition(
   try {
     const rawData = {
       name: formData.get("name") as string,
+      organizer: formData.get("organizer") as string,
       description: formData.get("description") as string,
-      imageUrl: formData.get("imageUrl") as string,
-      imagePublicId: formData.get("imagePublicId") as string,
+      category: formData.get("category") as string,
+      information: formData.get("information") as string,
+      type: formData.get("type") as string,
+      level: formData.get("level") as string,
+      startDate: formData.get("startDate") as string,
+      endDate: formData.get("endDate") as string,
+      imageUrl: (formData.get("imageUrl") as string) || null,
+      imagePublicId: (formData.get("imagePublicId") as string) || null,
     };
 
     const validationResult = CompetitionSchema.safeParse(rawData);
@@ -76,9 +83,16 @@ export async function updateCompetition(
   try {
     const rawData = {
       name: formData.get("name") as string,
+      organizer: formData.get("organizer") as string,
       description: formData.get("description") as string,
-      imageUrl: formData.get("imageUrl") as string,
-      imagePublicId: formData.get("imagePublicId") as string,
+      category: formData.get("category") as string,
+      information: formData.get("information") as string,
+      type: formData.get("type") as string,
+      level: formData.get("level") as string,
+      startDate: formData.get("startDate") as string,
+      endDate: formData.get("endDate") as string,
+      imageUrl: (formData.get("imageUrl") as string) || null,
+      imagePublicId: (formData.get("imagePublicId") as string) || null,
     };
 
     const validationResult = CompetitionSchema.safeParse(rawData);
@@ -136,7 +150,7 @@ export async function deleteCompetition(
     console.error("Failed to delete competition:", error);
     return {
       success: false,
-      error: "Failed to delete competition. Please try again.",
+      error: "Failed to delete competition",
     };
   }
 }

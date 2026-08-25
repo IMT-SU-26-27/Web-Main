@@ -1,13 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import SearchBar from "@/components/SearchBar";
+import React, { useState } from "react";
 import { ApplicationWithDetails } from "@/types/service/application";
 import { Status } from "@prisma/client";
-import gsap from "gsap";
 import { ActionResult } from "@/types/action";
-import { useOptionalSideNav } from "@/lib/contexts/SANavContext";
 
 type ApplicationsSearchProps = {
   applications: ApplicationWithDetails[];
@@ -25,15 +21,24 @@ type ConfirmAction = {
   applicantName: string;
 };
 
-const getStatusColor = (status: Status): string => {
+const getStatusBadge = (status: Status) => {
   switch (status) {
     case Status.APPROVED:
-      return "bg-green-100 text-green-800";
+      return {
+        label: "Approved",
+        badgeClass: "bg-[#2E7D32] text-white border-2 border-black",
+      };
     case Status.REJECTED:
-      return "bg-red-100 text-red-800";
+      return {
+        label: "Rejected",
+        badgeClass: "bg-[#C0392B] text-white border-2 border-black",
+      };
     case Status.PENDING:
     default:
-      return "bg-yellow-100 text-yellow-800";
+      return {
+        label: "Pending",
+        badgeClass: "bg-[#F6C25B] text-[#7E3E11] border-2 border-black",
+      };
   }
 };
 
@@ -61,14 +66,13 @@ export default function ApplicationsSearch({
   label = "Applications",
   additionalElements,
 }: ApplicationsSearchProps) {
+  const [search, setSearch] = useState("");
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(
     null
   );
   const [loading, setLoading] = useState(false);
 
-  const sideNav = useOptionalSideNav();
-
-  const handleStatusChange = async (
+  const handleStatusChange = (
     id: string,
     status: Status,
     applicantName: string
@@ -108,287 +112,290 @@ export default function ApplicationsSearch({
     }
   };
 
-  // Animate elements on mount
-  useEffect(() => {
-    gsap.fromTo(
-      ".start-left",
-      { opacity: 0, x: -30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power1.out",
-        stagger: 0.1,
-      }
-    );
+  const filteredApplications = applications.filter((app) => {
+    const name = (app.user.name || "").toLowerCase();
+    const email = (app.user.email || "").toLowerCase();
+    const nim = (app.user.nim || "").toLowerCase();
+    const itemTitle = getActivityName(app).toLowerCase();
+    const query = search.toLowerCase();
 
-    gsap.fromTo(
-      ".start-right",
-      { opacity: 0, x: 30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power1.out",
-        stagger: 0.1,
-      }
+    return (
+      name.includes(query) ||
+      email.includes(query) ||
+      nim.includes(query) ||
+      itemTitle.includes(query)
     );
-
-    gsap.fromTo(
-      ".start-bottom",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power1.out",
-        stagger: 0.1,
-      }
-    );
-  }, []);
+  });
 
   return (
-    <>
-      <div className="h-full w-[90vw] max-w-6xl flex flex-col items-start justify-start z-1 pt-10 gap-2">
-        <h1
-          className={`font-family-impact text-5xl start-left cursor-pointer xl:cursor-default`}
-          onClick={sideNav?.handleSideNav}
-        >
-          {label}
-          {sideNav != null && (
-            <Image
-              src="/dashboard/block-right-arrow.svg"
-              alt="Menu Side Nav"
-              width={18}
-              height={18}
-              className="inline-block ml-3 cursor-pointer xl:hidden"
-            />
-          )}
-        </h1>
+    <div className="w-full h-full flex-1 flex flex-col mb-10 select-none">
+      {/* Outer Wooden Board Frame */}
+      <div className="relative z-2 bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 md:p-8 w-full flex-1 flex flex-col justify-start items-center shadow-2xl mt-4">
+        {/* Top Centered Wooden Plaque Header */}
+        <div className="font-cinzel py-1 sm:py-1.5 md:py-2 px-6 sm:px-10 md:px-14 rounded-lg sm:rounded-xl font-bold text-white border-black text-sm sm:text-lg md:text-2xl lg:text-3xl absolute z-10 -top-4 sm:-top-5 md:-top-6 left-1/2 -translate-x-1/2 bg-[#BF6432] border-2 shadow-md flex items-center justify-center whitespace-nowrap">
+          <span className="font-outline-2 sm:font-outline-4 z-1 absolute text-[#7E3E11]">
+            APPLICATION MANAGEMENT
+          </span>
+          <p className="relative z-2">APPLICATION MANAGEMENT</p>
+        </div>
 
-        <SearchBar<ApplicationWithDetails>
-          items={applications}
-          className="start-left"
-          additionalElements={additionalElements}
-          isCentered={false}
-          getSearchValue={(application) => getActivityName(application)}
-        >
-          {(filteredApplications) => (
-            <div className="rounded-2xl overflow-hidden start-left border-4 border-[#003772] bg-[#0555AB] w-full mt-5">
-              <div className="overflow-x-auto thin-scroll">
-                <table className="w-full border-collapse table-fixed min-w-[1000px]">
-                  <thead className="bg-[#0555AB] text-white">
-                    <tr className="border-b-2 border-[#003772]">
-                      <th className="w-2/8 border-r-2 border-[#003772] px-4 py-2">
-                        Applicant Information
+        {/* Inner Parchment Panel */}
+        <div className="flex flex-col z-1 bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] rounded-xl border-2 border-black w-full flex-1 p-4 sm:p-6 md:p-8 mt-4 sm:mt-2">
+          {/* Subtitle description */}
+          <div className="mb-6 text-center">
+            <p className="font-cinzel font-bold text-xs sm:text-sm text-[#8C4A2F]">
+              Review student registrations and manage application approval statuses.
+            </p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mb-5">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search applications by student name, email, NIM, or activity/competition..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
+              />
+              <svg
+                className="absolute left-3.5 top-3 h-4 w-4 text-[#7E3E11]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            {additionalElements}
+          </div>
+
+          {/* Table Container */}
+          {filteredApplications.length === 0 ? (
+            <div className="text-center py-12 bg-[#F5D2A4]/60 border-2 border-black rounded-xl p-6">
+              <p className="font-cinzel font-bold text-[#8C4A2F] text-base">
+                No applications found.
+              </p>
+              {search && (
+                <p className="font-cinzel font-semibold text-[#8C4A2F]/80 text-xs mt-1">
+                  Try clearing your search query.
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="bg-[#F5D2A4] rounded-xl border-2 border-black shadow-inner overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y-2 divide-black">
+                  <thead className="bg-[#7E3E11]">
+                    <tr>
+                      <th className="px-5 py-3.5 text-left text-xs font-cinzel font-bold text-[#FFE6CD] uppercase tracking-wider">
+                        Applicant Info
                       </th>
-                      <th className="w-2/8 border-r-2 border-[#003772] px-4 py-2">
-                        Activity/Competition Name
+                      <th className="px-5 py-3.5 text-left text-xs font-cinzel font-bold text-[#FFE6CD] uppercase tracking-wider">
+                        Activity / Competition
                       </th>
-                      <th className="w-1/8 border-r-2 border-[#003772] px-4 py-2">
+                      <th className="px-5 py-3.5 text-left text-xs font-cinzel font-bold text-[#FFE6CD] uppercase tracking-wider">
                         Type
                       </th>
-                      <th className="w-1/8 border-r-2 border-[#003772] px-4 py-2">
+                      <th className="px-5 py-3.5 text-left text-xs font-cinzel font-bold text-[#FFE6CD] uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="w-2/8 px-4 py-2">Actions</th>
+                      <th className="px-5 py-3.5 text-right text-xs font-cinzel font-bold text-[#FFE6CD] uppercase tracking-wider">
+                        Update Status
+                      </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {filteredApplications.map((application) => (
-                      <tr
-                        key={application.id}
-                        className="bg-white border-b-2 border-[#003772] start-left hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="border-r-2 border-[#003772] px-4 py-2">
-                          <div className="space-y-1">
-                            <div className="font-semibold text-sm text-center">
-                              {application.user.name || "N/A"}
+                  <tbody className="divide-y divide-[#7E3E11]/20 bg-[#FFE6CD]/70">
+                    {filteredApplications.map((application) => {
+                      const status = getStatusBadge(application.status);
+
+                      return (
+                        <tr
+                          key={application.id}
+                          className="hover:bg-[#FFD7AB]/80 transition-colors"
+                        >
+                          {/* Applicant Info */}
+                          <td className="px-5 py-4">
+                            <div className="space-y-0.5">
+                              <div className="font-cinzel font-bold text-sm text-[#541C16]">
+                                {application.user.name || "N/A"}
+                              </div>
+                              <div className="font-cinzel text-xs text-[#8C4A2F]">
+                                {application.user.email || "N/A"}
+                              </div>
+                              {application.user.nim && (
+                                <div className="font-cinzel text-xs text-[#8C4A2F] font-semibold">
+                                  NIM: {application.user.nim}
+                                </div>
+                              )}
+                              {application.user.phoneNumber && (
+                                <div className="font-cinzel text-xs text-[#8C4A2F]">
+                                  Phone: {application.user.phoneNumber}
+                                </div>
+                              )}
                             </div>
-                            <div className="text-xs text-gray-600 text-center">
-                              Email: {application.user.email || "N/A"}
-                            </div>
-                            <div className="text-xs text-gray-600 text-center">
-                              Phone: {application.user.phoneNumber || "N/A"}
-                            </div>
-                            <div className="text-xs text-gray-600 text-center">
-                              NIM: {application.user.nim || "N/A"}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="border-r-2 border-[#003772] px-4 py-2">
-                          <div className="font-medium text-sm text-center">
+                          </td>
+
+                          {/* Activity / Competition */}
+                          <td className="px-5 py-4 font-cinzel font-bold text-sm text-[#541C16]">
                             {getActivityName(application)}
-                          </div>
-                        </td>
-                        <td className="border-r-2 border-[#003772] px-4 py-2 text-center">
-                          <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                            {getTypeDisplay(application)}
-                          </span>
-                        </td>
-                        <td className="border-r-2 border-[#003772] px-4 py-2 text-center">
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                              application.status
-                            )}`}
-                          >
-                            {application.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">
-                          <div className="flex flex-wrap gap-2 justify-center">
-                            {/* Approve Button */}
-                            <button
-                              onClick={() =>
-                                handleStatusChange(
-                                  application.id,
-                                  Status.APPROVED,
-                                  application.user.name || "User"
-                                )
-                              }
-                              disabled={application.status === Status.APPROVED}
-                              className={`${
-                                application.status === Status.APPROVED
-                                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                  : "bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer shadow-md hover:shadow-lg"
-                              } rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1`}
-                              title="Approve Application"
-                            >
-                              <svg
-                                className="w-4 h-4"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                          </td>
 
-                            {/* Pending Button */}
-                            <button
-                              onClick={() =>
-                                handleStatusChange(
-                                  application.id,
-                                  Status.PENDING,
-                                  application.user.name || "User"
-                                )
-                              }
-                              disabled={application.status === Status.PENDING}
-                              className={`${
-                                application.status === Status.PENDING
-                                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                  : "bg-amber-500 hover:bg-amber-600 text-white cursor-pointer shadow-md hover:shadow-lg"
-                              } rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1`}
-                              title="Set to Pending"
-                            >
-                              <svg
-                                className="w-4 h-4"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                          {/* Type */}
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            <span className="inline-flex px-2.5 py-0.5 text-xs font-cinzel font-bold rounded-md bg-[#F5D2A4] text-[#541C16] border border-black shadow-xs">
+                              {getTypeDisplay(application)}
+                            </span>
+                          </td>
 
-                            {/* Reject Button */}
-                            <button
-                              onClick={() =>
-                                handleStatusChange(
-                                  application.id,
-                                  Status.REJECTED,
-                                  application.user.name || "User"
-                                )
-                              }
-                              disabled={application.status === Status.REJECTED}
-                              className={`${
-                                application.status === Status.REJECTED
-                                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                  : "bg-red-500 hover:bg-red-600 text-white cursor-pointer shadow-md hover:shadow-lg"
-                              } rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 flex items-center gap-1`}
-                              title="Reject Application"
+                          {/* Status */}
+                          <td className="px-5 py-4 whitespace-nowrap">
+                            <span
+                              className={`inline-flex px-3 py-0.5 text-xs font-cinzel font-bold rounded-md shadow-xs ${status.badgeClass}`}
                             >
-                              <svg
-                                className="w-4 h-4"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
+                              {status.label}
+                            </span>
+                          </td>
+
+                          {/* Status Actions */}
+                          <td className="px-5 py-4 whitespace-nowrap text-right">
+                            <div className="flex items-center justify-end gap-1.5">
+                              {/* Approve Button */}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleStatusChange(
+                                    application.id,
+                                    Status.APPROVED,
+                                    application.user.name || "Student"
+                                  )
+                                }
+                                disabled={
+                                  application.status === Status.APPROVED
+                                }
+                                className={`px-2.5 py-1 rounded-md text-xs font-cinzel font-bold border-2 border-black transition-all ${
+                                  application.status === Status.APPROVED
+                                    ? "bg-gray-300 text-gray-500 border-gray-400 cursor-not-allowed opacity-50"
+                                    : "bg-[#2E7D32] hover:bg-[#256629] text-white shadow hover:scale-105 active:scale-95 cursor-pointer"
+                                }`}
                               >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                                Approve
+                              </button>
+
+                              {/* Pending Button */}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleStatusChange(
+                                    application.id,
+                                    Status.PENDING,
+                                    application.user.name || "Student"
+                                  )
+                                }
+                                disabled={
+                                  application.status === Status.PENDING
+                                }
+                                className={`px-2.5 py-1 rounded-md text-xs font-cinzel font-bold border-2 border-black transition-all ${
+                                  application.status === Status.PENDING
+                                    ? "bg-gray-300 text-gray-500 border-gray-400 cursor-not-allowed opacity-50"
+                                    : "bg-[#F6C25B] hover:bg-[#eab044] text-[#7E3E11] shadow hover:scale-105 active:scale-95 cursor-pointer"
+                                }`}
+                              >
+                                Pending
+                              </button>
+
+                              {/* Reject Button */}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleStatusChange(
+                                    application.id,
+                                    Status.REJECTED,
+                                    application.user.name || "Student"
+                                  )
+                                }
+                                disabled={
+                                  application.status === Status.REJECTED
+                                }
+                                className={`px-2.5 py-1 rounded-md text-xs font-cinzel font-bold border-2 border-black transition-all ${
+                                  application.status === Status.REJECTED
+                                    ? "bg-gray-300 text-gray-500 border-gray-400 cursor-not-allowed opacity-50"
+                                    : "bg-[#C0392B] hover:bg-[#a93226] text-white shadow hover:scale-105 active:scale-95 cursor-pointer"
+                                }`}
+                              >
+                                Reject
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
-        </SearchBar>
+        </div>
       </div>
 
-      {/* Confirmation Popup */}
+      {/* Confirmation Modal */}
       {confirmAction !== null && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-96 shadow-lg flex flex-col gap-4">
-            <h2 className="text-lg font-bold">Confirm Action</h2>
-            <p>
-              Are you sure you want to{" "}
-              <span className="font-semibold text-blue-600">
-                {confirmAction.action}
-              </span>{" "}
-              the application from{" "}
-              <span className="font-semibold">
-                {confirmAction.applicantName}
-              </span>
-              ?
-            </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setConfirmAction(null)}
-                disabled={loading}
-                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 disabled:opacity-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={executeAction}
-                disabled={loading}
-                className={`px-4 py-2 text-white rounded-lg disabled:opacity-50 ${
-                  confirmAction.action === "approve"
-                    ? "bg-green-500 hover:bg-green-600"
-                    : confirmAction.action === "reject"
-                    ? "bg-red-500 hover:bg-red-600"
-                    : confirmAction.action === "pending"
-                    ? "bg-yellow-500 hover:bg-yellow-600"
-                    : "bg-[#E93400] hover:bg-red-700"
-                }`}
-              >
-                {loading
-                  ? "Processing..."
-                  : `${
-                      confirmAction.action.charAt(0).toUpperCase() +
-                      confirmAction.action.slice(1)
-                    }`}
-              </button>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 select-none">
+          <div className="bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 max-w-md w-full shadow-2xl relative">
+            <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-5 sm:p-6 text-center">
+              <h3 className="font-cinzel font-black text-xl text-[#541C16] mb-3 uppercase tracking-wide">
+                Confirm Status Update
+              </h3>
+              <p className="font-cinzel font-bold text-sm text-[#8C4A2F] mb-6">
+                Are you sure you want to{" "}
+                <span className="text-[#541C16] font-black uppercase underline">
+                  {confirmAction.action}
+                </span>{" "}
+                the application from{" "}
+                <span className="text-[#541C16] font-black">
+                  &quot;{confirmAction.applicantName}&quot;
+                </span>
+                ?
+              </p>
+
+              <div className="flex justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setConfirmAction(null)}
+                  disabled={loading}
+                  className="px-4 py-2 bg-[#E5C198] hover:bg-[#d6af84] text-[#541C16] font-cinzel font-bold border-2 border-black rounded-lg text-xs sm:text-sm transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={executeAction}
+                  disabled={loading}
+                  className={`px-4 py-2 text-white font-cinzel font-bold border-2 border-black rounded-lg text-xs sm:text-sm transition-all shadow hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer ${
+                    confirmAction.action === "approve"
+                      ? "bg-[#2E7D32] hover:bg-[#256629]"
+                      : confirmAction.action === "reject"
+                      ? "bg-[#C0392B] hover:bg-[#a93226]"
+                      : "bg-[#F6C25B] hover:bg-[#eab044] text-[#7E3E11]"
+                  }`}
+                >
+                  {loading
+                    ? "Processing..."
+                    : `Confirm ${
+                        confirmAction.action.charAt(0).toUpperCase() +
+                        confirmAction.action.slice(1)
+                      }`}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

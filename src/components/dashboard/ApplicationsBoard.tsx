@@ -7,11 +7,21 @@ import { Activity } from "@/types/service/activity";
 import { Competition } from "@/types/service/competition";
 import DeleteButtonWithConfirmation from "@/components/dashboard/DeleteButtonWithConfirmation";
 
+interface StatCounts {
+  total: number;
+  approved: number;
+  pending: number;
+  rejected: number;
+}
+
 interface ApplicationsBoardProps {
   activityApplications: Application[];
   competitionApplications: Application[];
   activities: Activity[];
   competitions: Competition[];
+  stats?: StatCounts;
+  activityStats?: StatCounts;
+  competitionStats?: StatCounts;
 }
 
 export default function ApplicationsBoard({
@@ -19,6 +29,9 @@ export default function ApplicationsBoard({
   competitionApplications,
   activities,
   competitions,
+  stats,
+  activityStats,
+  competitionStats,
 }: ApplicationsBoardProps) {
   const [activeTab, setActiveTab] = useState<"activity" | "competition">("activity");
 
@@ -30,6 +43,20 @@ export default function ApplicationsBoard({
   const title = isActivity ? "ACTIVITY APPLICATIONS" : "COMPETITION APPLICATIONS";
   const currentApplications = isActivity ? activityApplications : competitionApplications;
   const currentItems = isActivity ? activities : competitions;
+
+  const currentStats = isActivity
+    ? activityStats || {
+        total: activityApplications.length,
+        approved: activityApplications.filter((a) => a.status === "APPROVED").length,
+        pending: activityApplications.filter((a) => a.status === "PENDING").length,
+        rejected: activityApplications.filter((a) => a.status === "REJECTED").length,
+      }
+    : competitionStats || {
+        total: competitionApplications.length,
+        approved: competitionApplications.filter((a) => a.status === "APPROVED").length,
+        pending: competitionApplications.filter((a) => a.status === "PENDING").length,
+        rejected: competitionApplications.filter((a) => a.status === "REJECTED").length,
+      };
 
   return (
     <div className="w-full flex justify-center mb-10 select-none">
@@ -77,7 +104,58 @@ export default function ApplicationsBoard({
         </div>
 
         {/* Inner Parchment Panel */}
-        <div className="flex flex-col z-1 bg-gradient-to-b rounded-xl border-2 border-black from-[#FFD7AB] to-[#FFE6CD] w-full min-h-full p-3 sm:p-6 md:p-8 pt-7 sm:pt-9 md:pt-10">
+        <div className="flex flex-col z-1 bg-gradient-to-b rounded-xl border-2 border-black from-[#FFD7AB] to-[#FFE6CD] w-full min-h-full p-3 sm:p-6 md:p-8 pt-7 sm:pt-9 md:pt-10 gap-4 sm:gap-5">
+          {/* Statistics Cards Inside Applications Board (At The Top) */}
+          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+            {/* Total Applications */}
+            <div className="bg-[#7E3E11] border-2 border-black rounded-xl p-1 sm:p-1.5 shadow-md">
+              <div className="bg-gradient-to-b from-[#FFF0DC] to-[#FFE0BE] border border-black/40 rounded-lg p-2.5 sm:p-3 flex flex-col items-center justify-center text-center w-full h-full">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#164098] font-cinzel leading-none mb-1">
+                  {currentStats.total}
+                </div>
+                <div className="text-[10px] sm:text-xs font-black text-[#541C16] uppercase tracking-wider font-cinzel text-center">
+                  Total Applications
+                </div>
+              </div>
+            </div>
+
+            {/* Approved */}
+            <div className="bg-[#7E3E11] border-2 border-black rounded-xl p-1 sm:p-1.5 shadow-md">
+              <div className="bg-gradient-to-b from-[#FFF0DC] to-[#FFE0BE] border border-black/40 rounded-lg p-2.5 sm:p-3 flex flex-col items-center justify-center text-center w-full h-full">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#1A773C] font-cinzel leading-none mb-1">
+                  {currentStats.approved}
+                </div>
+                <div className="text-[10px] sm:text-xs font-black text-[#541C16] uppercase tracking-wider font-cinzel text-center">
+                  Approved
+                </div>
+              </div>
+            </div>
+
+            {/* Pending */}
+            <div className="bg-[#7E3E11] border-2 border-black rounded-xl p-1 sm:p-1.5 shadow-md">
+              <div className="bg-gradient-to-b from-[#FFF0DC] to-[#FFE0BE] border border-black/40 rounded-lg p-2.5 sm:p-3 flex flex-col items-center justify-center text-center w-full h-full">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#B87106] font-cinzel leading-none mb-1">
+                  {currentStats.pending}
+                </div>
+                <div className="text-[10px] sm:text-xs font-black text-[#541C16] uppercase tracking-wider font-cinzel text-center">
+                  Pending
+                </div>
+              </div>
+            </div>
+
+            {/* Rejected */}
+            <div className="bg-[#7E3E11] border-2 border-black rounded-xl p-1 sm:p-1.5 shadow-md">
+              <div className="bg-gradient-to-b from-[#FFF0DC] to-[#FFE0BE] border border-black/40 rounded-lg p-2.5 sm:p-3 flex flex-col items-center justify-center text-center w-full h-full">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#A81E1E] font-cinzel leading-none mb-1">
+                  {currentStats.rejected}
+                </div>
+                <div className="text-[10px] sm:text-xs font-black text-[#541C16] uppercase tracking-wider font-cinzel text-center">
+                  Rejected
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Inner Bordered Table Area */}
           <div className="border-2 border-black rounded-xl p-3 sm:p-5 bg-[#F6D0A2]/40 w-full overflow-hidden">
             {currentApplications.length === 0 ? (

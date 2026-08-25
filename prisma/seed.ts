@@ -252,9 +252,57 @@ export async function main() {
     skipDuplicates: true,
   });
 
+  // Seed Events
+  const events = await prisma.event.createMany({
+    data: [
+      {
+        name: "Informatics Welcoming Party 2025",
+        description:
+          "An exciting orientation and welcoming party for newly enrolled Informatics students. Meet your seniors, lecturers, and fellow peers!",
+        status: "DONE",
+        startDate: new Date("2025-09-01T08:00:00Z"),
+        endDate: new Date("2025-09-01T17:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+      {
+        name: "IMT Tech Summit & Career Fair",
+        description:
+          "Connect with leading tech companies, explore internship and job opportunities, and attend insightful keynote talks by industry leaders.",
+        status: "DONE",
+        startDate: new Date("2025-10-20T09:00:00Z"),
+        endDate: new Date("2025-10-21T16:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+      {
+        name: "Annual Informatics Gathering & Gala Night",
+        description:
+          "A celebration of student achievements, cultural performances, and networking night for all Informatics students and alumni.",
+        status: "ONGOING",
+        startDate: new Date("2025-12-12T18:00:00Z"),
+        endDate: new Date("2025-12-12T22:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+      {
+        name: "Open Talk: Future of AI in Software Engineering",
+        description:
+          "An interactive open discussion and panel session focusing on AI-driven developer tooling, agentic workflows, and emerging industry paradigms.",
+        status: "UPCOMING",
+        startDate: new Date("2026-03-10T13:00:00Z"),
+        endDate: new Date("2026-03-10T16:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+    ],
+    skipDuplicates: true,
+  });
+
   console.log(`Created ${activities.count} activities`);
   console.log(`Created ${achievements.count} achievements`);
   console.log(`Created ${competitions.count} competitions`);
+  console.log(`Created ${events.count} events`);
   console.log("Seeding completed!");
 }
 

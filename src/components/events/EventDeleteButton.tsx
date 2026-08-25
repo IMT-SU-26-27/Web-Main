@@ -1,20 +1,32 @@
 "use client";
 
 import React, { useState } from "react";
-import { deleteUser } from "@/lib/service/user";
+import { deleteEvent } from "@/lib/service/event";
 
-export function DeleteButton({ userId, userName }: { userId: string; userName?: string }) {
+interface EventDeleteButtonProps {
+  eventId: string;
+  eventName: string;
+}
+
+export default function EventDeleteButton({
+  eventId,
+  eventName,
+}: EventDeleteButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteUser(userId);
-      setIsOpen(false);
-      window.location.reload();
+      const res = await deleteEvent(eventId);
+      if (res.success) {
+        setIsOpen(false);
+        window.location.reload();
+      } else {
+        alert(res.error || "Failed to delete event");
+      }
     } catch {
-      alert("Failed to delete user.");
+      alert("An unexpected error occurred");
     } finally {
       setIsDeleting(false);
     }
@@ -35,10 +47,10 @@ export function DeleteButton({ userId, userName }: { userId: string; userName?: 
           <div className="bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 max-w-md w-full shadow-2xl relative">
             <div className="bg-gradient-to-b from-[#FFD7AB] to-[#FFE6CD] border-2 border-black rounded-xl p-5 sm:p-6 text-center">
               <h3 className="font-cinzel font-black text-xl text-[#541C16] mb-3 uppercase tracking-wide">
-                Confirm Delete User
+                Confirm Delete Event
               </h3>
               <p className="font-cinzel font-bold text-sm text-[#8C4A2F] mb-6">
-                Are you sure you want to delete {userName ? `"${userName}"` : "this user"}? This action cannot be undone.
+                Are you sure you want to delete <span className="text-[#541C16] font-black">&quot;{eventName}&quot;</span>? This action cannot be undone.
               </p>
 
               <div className="flex justify-center gap-3">

@@ -1,12 +1,19 @@
+import React from "react";
 import AchievementForm from "@/components/achievement/AchievementForm";
 import { getAchievementById } from "@/lib/service/achievement";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
-export default async function EditActivityPage(props: {
+export const metadata: Metadata = {
+  title: "Edit Achievement - PR Dashboard",
+  description: "Edit student union achievement details.",
+};
+
+export default async function EditAchievementPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const id = await params.id;
+  const id = params.id;
   const achievement = await getAchievementById(id);
 
   if (!achievement) {
@@ -14,12 +21,8 @@ export default async function EditActivityPage(props: {
   }
 
   return (
-    <>
-      <div className="h-[6.5vh]"></div>
-      <div className="flex flex-col justify-center items-center min-h-[93.5vh] py-10">
-        <h1 className="text-3xl font-bold mb-6">Edit Achievement</h1>
-        <AchievementForm mode="edit" data={achievement} />
-      </div>
-    </>
+    <div className="w-full h-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 select-none">
+      <AchievementForm mode="edit" data={achievement} />
+    </div>
   );
 }

@@ -19,19 +19,28 @@ export default function ApplyButton({
 
   useEffect(() => {
     async function fetchStatus() {
-      if (session) {
-        const status = await getStatusApplication(activityId, session.user.id);
-        setApplicationStatus(status);
+      if (session?.user?.id) {
+        try {
+          const res = await getStatusApplication(activityId, session.user.id);
+          setApplicationStatus(res || undefined);
+        } catch (error) {
+          console.error("Error fetching application status:", error);
+        }
       }
     }
     fetchStatus();
   }, [session, activityId]);
 
+  const now = new Date();
+  const isActivityPassed = startDate ? new Date(startDate) < now : false;
+  const isQuotaFull = quota && approvedCount !== undefined ? approvedCount >= quota : false;
+  const isAlreadyApplied = Boolean(applicationStatus);
+  const isDisabled = isActivityPassed || isQuotaFull || isAlreadyApplied || status === "loading";
+
   const handleApply = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // Prevent application if activity has passed or quota is full
-    if (isActivityPassed || isQuotaFull) {
+    if (isDisabled) {
       return;
     }
 
@@ -42,7 +51,6 @@ export default function ApplyButton({
 
     if (!applicationStatus) {
       confirmApply?.(async () => {
-        // prevent multiple applications
         const result = await createApplication(session.user.id, activityId);
         if (result.success) {
           setApplicationStatus("PENDING");
@@ -53,38 +61,34 @@ export default function ApplyButton({
     }
   };
 
-  let childrenTemp = children;
-  const now = new Date();
-  const isActivityPassed = startDate ? new Date(startDate) < now : false;
-  const isQuotaFull = quota && approvedCount !== undefined ? approvedCount >= quota : false;
-  const isDisabled = isActivityPassed || isQuotaFull;
+  let displayText = children;
 
   if (status === "loading") {
-    childrenTemp = "Loading...";
-  } else if (!session) {
-    childrenTemp = "Please Log In to Apply";
+    displayText = "Loading...";
   } else if (isActivityPassed) {
-    childrenTemp = "Activity Has Ended";
+    displayText = "Activity Has Ended";
   } else if (isQuotaFull) {
-    childrenTemp = "Quota Full";
+    displayText = "Quota Full";
   } else if (applicationStatus === "APPROVED") {
-    childrenTemp = "Accepted";
+    displayText = "Accepted";
   } else if (applicationStatus === "REJECTED") {
-    childrenTemp = "Rejected";
+    displayText = "Rejected";
   } else if (applicationStatus === "PENDING") {
-    childrenTemp = "Waiting for Approval";
+    displayText = "Waiting for Approval";
+  } else if (!session) {
+    displayText = "Register";
   }
 
   return (
     <button
       type="button"
-      className={`group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] ${
-        isDisabled
-          ? "cursor-not-allowed bg-black/50 text-[#FFF5E3]/70"
-          : "cursor-pointer bg-black/40 hover:bg-black/50"
-      } ${className}`}
       onClick={handleApply}
       disabled={isDisabled}
+      className={`group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] ${
+        isDisabled
+          ? "cursor-not-allowed bg-black/60 text-[#FFF5E3]/60"
+          : "cursor-pointer bg-black/40 hover:bg-black/50"
+      } ${className}`}
     >
       {/* Sliding color overlay from left on hover */}
       {!isDisabled && (
@@ -93,7 +97,7 @@ export default function ApplyButton({
           aria-hidden="true"
         />
       )}
-      <span className="relative z-10 text-base sm:text-lg">{childrenTemp}</span>
+      <span className="relative z-10 text-base sm:text-lg">{displayText}</span>
     </button>
   );
 }

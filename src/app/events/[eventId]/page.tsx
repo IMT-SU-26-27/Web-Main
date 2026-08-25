@@ -1,262 +1,181 @@
-"use client";
-
-import Carousel from "@/components/eventsdetails/Carousel";
+import React from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CldImage } from "next-cloudinary";
+import { getEventById } from "@/lib/service/event";
+import NotFound from "./not-found";
+import Link from "next/link";
+import BigWaves from "@/components/home/BigWaves";
+import { IoArrowBackCircle } from "react-icons/io5";
+import {
+  MdEvent,
+  MdCalendarToday,
+} from "react-icons/md";
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
-
-const eventsData = [
-  {
-    id: "pulse",
-    title: "Pulse",
-    date: "21 August 2025",
-    description:
-      "Step into the Pulse of Informatics! ✨\nIMT Pulse merupakan sebuah magang di Student Union Informatika, di sini skill komunikasi, critical thinking, dan kepemimpinan kalian akan diasah selama 1 periode! Selain itu, kalian juga akan mengembangkan komunikasi tim serta keterampilan teknis yang banyak digunakan di kehidupan kalian, sehingga siap menghadapi tantangan dunia kuliah, organisasi, maupun profesional. \nRasakan pengalaman berorganisasi sejak Semester 1! 🚀",
-  },
-  {
-    id: "technocamp",
-    title: "Technocamp",
-    date: "21 OCTOBER 2025",
-    description:
-      "Technocamp adalah bootcamp intensif yang dirancang untuk mengembangkan skill programming dan teknologi terkini. Peserta akan belajar langsung dari industry expert melalui hands-on workshop, mentoring session, dan project-based learning. Cocok untuk pemula yang ingin terjun ke dunia tech.",
-  },
-];
-
-export default function EventDetailPage({
-  params,
-}: {
+export async function generateMetadata(props: {
   params: Promise<{ eventId: string }>;
 }) {
-  const [eventId, seteventId] = useState<string>("");
-  const [eventTitle, setEventTitle] = useState<string>("");
-  const [eventDate, setEventDate] = useState<string>("");
-  const [eventDescription, setEventDescription] = useState<string>("");
-  // const router = useRouter();
+  const params = await props.params;
+  const eventId = params.eventId;
 
-  useEffect(() => {
-    // Resolve the params promise
-    params.then(({ eventId }) => {
-      seteventId(eventId);
+  const event = await getEventById(eventId);
 
-      // Cari data event berdasarkan eventId
-      const eventData = eventsData.find((event) => event.id === eventId);
-      if (eventData) {
-        setEventTitle(eventData.title);
-        setEventDate(eventData.date);
-        setEventDescription(eventData.description);
-      } else {
-        // Fallback jika event tidak ditemukan
-        setEventTitle("Coming Soon");
-        setEventDate("Coming Soon");
-        setEventDescription(
-          "Informasi event akan segera hadir. Stay tuned untuk update terbaru mengenai event menarik ini!"
-        );
-      }
-    });
-  }, [params]); // Sekarang hanya params yang jadi dependency
+  if (!event) {
+    return {
+      title: "Event Not Found",
+    };
+  }
 
-  useEffect(() => {
-    // Animasi untuk decorative images - langsung pop-up tanpa scroll
-    const decorativeImages = [
-      ".top-left-image",
-      ".top-right-image",
-      ".pink-oval-image",
-      ".bottom-left-image",
-      ".camera-image",
-    ];
+  return {
+    title: event.name,
+  };
+}
 
-    decorativeImages.forEach((selector, index) => {
-      gsap.fromTo(
-        selector,
-        {
-          opacity: 0,
-          scale: 0.3,
-          rotation: -15,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotation: 0,
-          duration: 0.8,
-          delay: index * 0.2,
-          ease: "back.out(1.7)",
-        }
-      );
-    });
+const EventDetails = async (props: {
+  params: Promise<{ eventId: string }>;
+}) => {
+  const params = await props.params;
+  const eventId = params.eventId;
 
-    // Animasi untuk title dan date dengan efek typewriter
-    gsap.fromTo(
-      ".event-title",
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 1,
-        ease: "power3.out",
-      }
-    );
+  const event = await getEventById(eventId);
 
-    gsap.fromTo(
-      ".event-date",
-      {
-        opacity: 0,
-        scale: 0.8,
-      },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        delay: 0.8,
-        ease: "back.out(1.7)",
-      }
-    );
+  if (!event) {
+    return <NotFound />;
+  }
 
-    // Animasi untuk description dengan stagger
-    gsap.fromTo(
-      ".description-paragraph",
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 1.5,
-        ease: "power2.out",
-      }
-    );
+  const title = event.name;
+  const description =
+    event.description ||
+    "Join this exciting event organized by Student Union to connect, learn, and experience amazing moments.";
 
-    gsap.fromTo(
-      ".register-button-container",
-      {
-        opacity: 0,
-        y: -50,
-        scale: 0.9,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.8,
-        delay: 2,
-        ease: "back.out(1.7)",
-      }
-    );
+  const startDateFormatted = new Date(event.startDate).toLocaleDateString(
+    "en-GB",
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }
+  );
 
-    // Animasi untuk carousel dengan slide in
-    gsap.fromTo(
-      ".carousel-container",
-      {
-        opacity: 0,
-        y: 50,
-        rotateX: -10,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        rotateX: 0,
-        duration: 1,
-        delay: 0.5,
-        ease: "power3.out",
-      }
-    );
-
-    // Animasi background paper dengan parallax effect
-    gsap.fromTo(
-      ".background-paper",
-      {
-        opacity: 0,
-        scale: 1.1,
-      },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 2,
-        ease: "power2.out",
-      }
-    );
-  }, []);
+  const endDateFormatted = new Date(event.endDate).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="h-[5vh] bg-[#F1EEE6]"></div>
-      <div className="background-paper pt-8 relative flex flex-col items-center min-h-screen w-full bg-[url('/backgrounds/background-paper.png')] bg-contain bg-center bg-[#F1EEE6] overflow-hidden">
-        {/* Decorative Elements with reduced opacity for better hierarchy */}
-        <Image
-          src="/eventsdetails/top-left.webp"
-          alt="top left"
-          width={700}
-          height={475}
-          className="top-left-image top-[-2rem] sm:top-[-3rem] md:top-[-4rem] left-0 absolute w-[12rem] sm:w-[18rem] md:w-[25rem] lg:w-[25rem] opacity-80"
-        />
-        <Image
-          src="/eventsdetails/top-right.svg"
-          alt="top right"
-          width={700}
-          height={475}
-          className="top-right-image top-0 right-0 absolute w-[20rem] sm:w-[25rem] md:w-[30rem] lg:w-[35rem] opacity-70"
-        />
-        <Image
-          src="/events/pink-oval.svg"
-          alt="pink oval"
-          width={700}
-          height={475}
-          className="pink-oval-image bottom-[-10rem] sm:bottom-[-13rem] lg:bottom-[-18rem] left-[-7rem] sm:left-[-5rem] md:left-[-7rem] absolute w-[20rem] sm:w-[25rem] md:w-[30rem] lg:w-[35rem] opacity-60"
-        />
-        <Image
-          src="/eventsdetails/bottom-left-2.svg"
-          alt="bottom left"
-          width={700}
-          height={475}
-          className="bottom-left-image bottom-[-3rem] sm:bottom-[-4rem] md:bottom-[-5rem] left-0 absolute w-[12rem] sm:w-[18rem] md:w-[25rem] lg:w-[25rem] z-1 opacity-70"
-        />
-        <Image
-          className="camera-image absolute bottom-[-2rem] sm:bottom-[-2rem] md:bottom-[-3rem] right-[-1rem] sm:right-[-2rem] md:right-[-6rem] w-[8rem] sm:w-[12rem] md:w-[15rem] lg:w-[15rem] -scale-x-100 rotate-[7deg] opacity-75"
-          src="/events/camera.webp"
-          alt="camera"
-          width={200}
-          height={200}
-        />
+    <div className="relative z-4 select-none overflow-hidden flex px-4 sm:px-8 md:px-16 lg:px-24 gap-8 sm:gap-12 flex-col items-center justify-center min-h-[90vh] pt-0 w-full overflow-x-hidden">
+      <BigWaves extraClassName="rotate-x-180" />
 
-        {/* Tampilkan Carousel dengan eventId */}
-        <div className="carousel-container w-full relative mt-12 mb-8 rotate-[-1deg]">
-          <Carousel eventId={eventId} />
+      <div className="relative my-24 z-10 container mx-auto px-6 lg:px-20 mt-8">
+        {/* Back Navigation Button */}
+        <div className="mt-4 flex justify-left w-full">
+          <Link href="/events">
+            <button className="bg-[#b3caeb] text-[#1c3c86] text-2xl md:text-3xl font-extrabold px-16 py-3.5 rounded-lg shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer font-cinzel flex items-center gap-2">
+              <IoArrowBackCircle /> Back
+            </button>
+          </Link>
         </div>
+        <br />
 
-        {/* Event Detail Content */}
-        <div className="max-w-6xl mx-auto px-8 py-16 mb-32">
-          {/* Date Badge */}
-          <div className="event-date mb-4">
-            <span className="inline-block bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium tracking-wider uppercase">
-              {eventDate || "Loading..."}
-            </span>
+        {/* Main Content Layout */}
+        <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-16 lg:gap-24 w-full">
+          {/* Left Column: Image Frame & Mascot */}
+          <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-start">
+            {/* The Beige Frame */}
+            <div className="relative bg-[#f4ebd0] w-[340px] h-[340px] md:w-[480px] md:h-[480px] shadow-2xl rounded-sm border-[12px] border-[#f4ebd0] z-10 flex items-center justify-center">
+              <div className="bg-gray-300 w-full h-full relative overflow-hidden">
+                {event.imagePublicId ? (
+                  <CldImage
+                    draggable={false}
+                    loading="lazy"
+                    src={event.imagePublicId}
+                    alt={event.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <Image
+                    src={event.imageUrl || "/placeholder/placeholder.png"}
+                    alt={event.name}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                )}
+              </div>
+
+              {/* Mascot */}
+              <div className="absolute -bottom-12 -right-16 md:-bottom-16 md:-right-24 z-20 w-[180px] h-[180px] md:w-[260px] md:h-[260px]">
+                <Image
+                  src="/competitions/competition-detail/veno-thinking-look_left.webp"
+                  alt="Veno Mascot"
+                  fill
+                  className="object-contain drop-shadow-2xl hover:-translate-y-2 transition-transform duration-300"
+                  unoptimized
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Title */}
-          <div className="mb-8">
-            <h1 className="event-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-gray-900 leading-[0.9] tracking-tight">
-              {eventTitle || "Loading..."}
-            </h1>
-          </div>
+          {/* Right Column: Title, Info, Description */}
+          <div className="flex flex-col w-full lg:w-1/2 gap-6 text-left">
+            <div className="relative inline-block w-full">
+              <h1 className="font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[64px] tracking-wide text-white leading-tight font-cinzel">
+                {title}
+              </h1>
 
-          {/* Description */}
-          <div className="max-w-4xl mb-8 md:ml-2 ml-1">
-            <p className="description-paragraph text-gray-700 text-xl md:text-2xl leading-relaxed font-light whitespace-pre-line">
-              {eventDescription || "Loading..."}
-            </p>
+              {/* Floating Bubbles */}
+              <div className="absolute -top-12 -right-0 hidden lg:block opacity-60">
+                <div className="w-12 h-12 bg-white/20 rounded-full blur-[2px] absolute top-0 left-0"></div>
+                <div className="w-16 h-16 bg-white/20 rounded-full blur-[2px] absolute top-8 left-12"></div>
+                <div className="w-10 h-10 bg-white/20 rounded-full blur-[2px] absolute top-24 left-8"></div>
+              </div>
+            </div>
+
+            {/* Retro Pixel Capsule Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full">
+              {/* Status Badge (Red) */}
+              <div className="bg-[#E85A65] border-3 border-[#8A242B] rounded-2xl p-1.5 flex items-center shadow-lg hover:scale-[1.02] transition-transform">
+                <div className="w-10 sm:w-12 flex items-center justify-center shrink-0">
+                  <MdEvent className="w-6 h-6 text-[#731E24]" />
+                </div>
+                <div className="bg-[#FFFDF4] rounded-xl flex-1 px-3 py-1.5 sm:py-2 flex flex-col justify-center min-w-0 border border-black/5">
+                  <span className="font-pixelify uppercase font-bold text-[10px] sm:text-xs text-[#8A242B] tracking-wider leading-none">
+                    Status
+                  </span>
+                  <span className="font-pixelify font-black text-sm sm:text-base text-[#8A242B] uppercase tracking-wide truncate mt-0.5 leading-tight">
+                    {event.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* Timeline Badge (Purple) */}
+              <div className="bg-[#9D78C9] border-3 border-[#4C2E73] rounded-2xl p-1.5 flex items-center shadow-lg hover:scale-[1.02] transition-transform">
+                <div className="w-10 sm:w-12 flex items-center justify-center shrink-0">
+                  <MdCalendarToday className="w-6 h-6 text-[#412466]" />
+                </div>
+                <div className="bg-[#FFFDF4] rounded-xl flex-1 px-3 py-1.5 sm:py-2 flex flex-col justify-center min-w-0 border border-black/5">
+                  <span className="font-pixelify uppercase font-bold text-[10px] sm:text-xs text-[#4C2E73] tracking-wider leading-none">
+                    Timeline
+                  </span>
+                  <span className="font-pixelify font-black text-sm sm:text-base text-[#4C2E73] uppercase tracking-wide truncate mt-0.5 leading-tight">
+                    {startDateFormatted} - {endDateFormatted}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mt-2 text-base sm:text-lg md:text-xl font-medium leading-relaxed text-white/95 text-justify font-gill whitespace-pre-wrap">
+              {description}
+            </div>
           </div>
         </div>
       </div>
+
+      <BigWaves extraClassName="" />
     </div>
   );
-}
+};
+
+export default EventDetails;

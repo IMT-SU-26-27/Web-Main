@@ -44,6 +44,12 @@ enum Type {
   GROUP
 }
 
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  DONE
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -178,4 +184,17 @@ model Pulse {
   portfolioPublicId        String?
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
+}
+
+model Event {
+  id            String      @id @default(cuid())
+  name          String
+  description   String
+  status        EventStatus @default(UPCOMING)
+  imageUrl      String?
+  imagePublicId String?
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }

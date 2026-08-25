@@ -1,30 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { createActivity, updateActivity } from "@/lib/service/activity";
-import { ActivityFormProps } from "@/types/service/activity";
-import { UploadWidget } from "../utils/UploadWidget";
-import { Category } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { createEvent, updateEvent } from "@/lib/service/event";
+import { EventFormProps, EventStatus } from "@/types/service/event";
+import { UploadWidget } from "@/components/utils/UploadWidget";
 
-export default function ActivityForm({
-  mode,
-  data,
-  categories,
-}: ActivityFormProps) {
-  /* States */
+export default function EventForm({ mode, data }: EventFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [success, setSuccess] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<Category>(
-    data?.category || Category.ACTIVITY
-  );
+  const [status, setStatus] = useState<EventStatus>(data?.status || "UPCOMING");
   const [imageUrl, setImageUrl] = useState<string>(data?.imageUrl || "");
   const [imagePublicId, setImagePublicId] = useState<string>(
     data?.imagePublicId || ""
   );
+
   const router = useRouter();
 
   function handleImageUpload(url: string, publicId?: string) {
@@ -42,14 +35,13 @@ export default function ActivityForm({
     )}:${pad(d.getMinutes())}`;
   };
 
-  /* Form Submission Handler */
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
     setErrors([]);
     setSuccess("");
 
     try {
-      formData.set("category", selectedCategory);
+      formData.set("status", status);
 
       if (imageUrl) {
         formData.set("imageUrl", imageUrl);
@@ -59,24 +51,24 @@ export default function ActivityForm({
       }
 
       if (mode === "create") {
-        const result = await createActivity(formData);
+        const result = await createEvent(formData);
         if (result.success) {
-          setSuccess(result.message || "Activity created successfully!");
+          setSuccess(result.message || "Event created successfully!");
           setTimeout(() => {
-            router.push("/dashboard/sa/activities");
+            router.push("/dashboard/tech/events");
           }, 500);
         } else {
-          setErrors([result.error || "Failed to create activity"]);
+          setErrors([result.error || "Failed to create event"]);
         }
       } else if (mode === "edit" && data) {
-        const result = await updateActivity(data.id, formData);
+        const result = await updateEvent(data.id, formData);
         if (result.success) {
-          setSuccess(result.message || "Activity updated successfully!");
+          setSuccess(result.message || "Event updated successfully!");
           setTimeout(() => {
-            router.push("/dashboard/sa/activities");
+            router.push("/dashboard/tech/events");
           }, 500);
         } else {
-          setErrors([result.error || "Failed to update activity"]);
+          setErrors([result.error || "Failed to update event"]);
         }
       }
     } catch (error) {
@@ -88,7 +80,7 @@ export default function ActivityForm({
     }
   }
 
-  const title = mode === "create" ? "CREATE ACTIVITY" : "EDIT ACTIVITY";
+  const title = mode === "create" ? "CREATE EVENT" : "EDIT EVENT";
 
   return (
     <div className="relative z-2 bg-[#7E3E11] border-2 border-black rounded-2xl p-4 sm:p-6 md:p-8 w-full flex-1 flex flex-col justify-start items-center shadow-2xl mt-4 select-none">
@@ -105,21 +97,21 @@ export default function ActivityForm({
         {/* Back link */}
         <div className="mb-4">
           <Link
-            href="/dashboard/sa/activities"
+            href="/dashboard/tech/events"
             className="inline-flex items-center gap-1.5 font-cinzel font-bold text-xs sm:text-sm text-[#8C4A2F] hover:text-[#541C16] transition-colors"
           >
-            ← Back to Activities
+            ← Back to Events
           </Link>
         </div>
 
-        {/* Success Message */}
+        {/* Success Notification */}
         {success && (
           <div className="mb-5 p-3.5 bg-[#D4EDDA] border-2 border-[#28A745] text-[#155724] rounded-xl font-cinzel font-bold text-xs sm:text-sm text-center">
             {success}
           </div>
         )}
 
-        {/* Error Message */}
+        {/* Error Notification */}
         {errors.length > 0 && (
           <div className="mb-5 p-3.5 bg-[#FADBD8] border-2 border-[#C0392B] text-[#922B21] rounded-xl font-cinzel font-bold text-xs sm:text-sm">
             <ul className="list-disc list-inside space-y-1">
@@ -130,9 +122,7 @@ export default function ActivityForm({
           </div>
         )}
 
-        {/* Activity Form */}
         <form
-          id="activity-form"
           onSubmit={(e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
@@ -142,95 +132,83 @@ export default function ActivityForm({
             isSubmitting ? "opacity-60 pointer-events-none" : ""
           }`}
         >
-          {/* Row 1: Title & Location */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="title"
-                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
-              >
-                Activity Title
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                defaultValue={data?.title || ""}
-                required
-                maxLength={100}
-                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
-                placeholder="e.g., Programming Workshop"
-              />
-            </div>
+          {/* Name Input */}
+          <div>
+            <label
+              htmlFor="name"
+              className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
+            >
+              Event Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              defaultValue={data?.name || ""}
+              required
+              maxLength={100}
+              className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
+              placeholder="e.g., Informatics Grand Orientation"
+            />
+          </div>
 
-            <div>
-              <label
-                htmlFor="location"
-                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
-              >
-                Location
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                defaultValue={data?.location || ""}
-                required
-                maxLength={100}
-                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
-                placeholder="e.g., Computer Lab A - Building 2"
-              />
+          {/* Status Selection */}
+          <div>
+            <label className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5">
+              Event Status
+            </label>
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+              {[
+                { value: "UPCOMING", label: "Upcoming", color: "bg-[#1976D2]" },
+                { value: "ONGOING", label: "Ongoing", color: "bg-[#2E7D32]" },
+                { value: "DONE", label: "Done", color: "bg-[#7E3E11]" },
+              ].map((item) => (
+                <label
+                  key={item.value}
+                  className={`flex items-center justify-center gap-2 p-2.5 sm:p-3 rounded-xl border-2 border-black font-cinzel font-bold text-xs sm:text-sm cursor-pointer transition-all ${
+                    status === item.value
+                      ? "bg-[#BF6432] text-white shadow-md scale-[1.02]"
+                      : "bg-[#F5D2A4] text-[#541C16] hover:bg-[#ffe6cd]"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="status"
+                    value={item.value}
+                    checked={status === item.value}
+                    onChange={(e) => setStatus(e.target.value as EventStatus)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-2.5 h-2.5 rounded-full border border-black ${item.color}`}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
             </div>
           </div>
 
-          {/* Row 2: Category, Generation, Start Date */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5">
-                Category
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {[Category.ACTIVITY, Category.RESEARCH].map((cat) => (
-                  <label
-                    key={cat}
-                    className={`flex items-center justify-center p-2.5 rounded-xl border-2 border-black font-cinzel font-bold text-xs cursor-pointer transition-all ${
-                      selectedCategory === cat
-                        ? "bg-[#BF6432] text-white shadow-md scale-[1.02]"
-                        : "bg-[#F5D2A4] text-[#541C16] hover:bg-[#ffe6cd]"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="cat_radio"
-                      value={cat}
-                      checked={selectedCategory === cat}
-                      onChange={() => setSelectedCategory(cat)}
-                      className="sr-only"
-                    />
-                    <span>{cat}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
+          {/* Description Textarea */}
+          <div>
+            <label
+              htmlFor="description"
+              className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              defaultValue={data?.description || ""}
+              required
+              rows={4}
+              className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner resize-vertical"
+              placeholder="Provide a detailed overview of the event..."
+            />
+          </div>
 
-            <div>
-              <label
-                htmlFor="generation"
-                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
-              >
-                Generation (Year)
-              </label>
-              <input
-                type="text"
-                id="generation"
-                name="generation"
-                defaultValue={data?.generation || ""}
-                maxLength={20}
-                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner"
-                placeholder="e.g., 2025"
-              />
-            </div>
-
+          {/* Date Row (Start & End Date) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label
                 htmlFor="startDate"
@@ -247,79 +225,34 @@ export default function ActivityForm({
                 className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none shadow-inner"
               />
             </div>
-          </div>
-
-          {/* Row 3: Credit Points & Quota */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="creditPoint"
-                className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
-              >
-                Credit Point (1-10)
-              </label>
-              <input
-                type="number"
-                id="creditPoint"
-                name="creditPoint"
-                defaultValue={data?.creditPoint || 1}
-                required
-                min={1}
-                max={10}
-                className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none shadow-inner"
-                placeholder="1"
-              />
-            </div>
 
             <div>
               <label
-                htmlFor="quota"
+                htmlFor="endDate"
                 className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
               >
-                Participant Quota
+                End Date & Time
               </label>
               <input
-                type="number"
-                id="quota"
-                name="quota"
-                defaultValue={data?.quota || 30}
+                type="datetime-local"
+                id="endDate"
+                name="endDate"
+                defaultValue={formatForInput(data?.endDate)}
                 required
-                min={1}
-                max={1000}
                 className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none shadow-inner"
-                placeholder="30"
               />
             </div>
           </div>
 
-          {/* Description Input */}
-          <div>
-            <label
-              htmlFor="description"
-              className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-1.5"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              defaultValue={data?.description || ""}
-              required
-              rows={4}
-              className="w-full px-3.5 py-2.5 bg-[#F5D2A4] border-2 border-black rounded-xl font-cinzel font-bold text-xs sm:text-sm text-[#541C16] focus:outline-none placeholder-[#8C4A2F]/70 shadow-inner resize-vertical"
-              placeholder="Overview and schedule of the activity..."
-            />
-          </div>
-
-          {/* Cover Image Input */}
+          {/* Cover Image Upload */}
           <div>
             <label className="block font-cinzel font-black text-xs sm:text-sm text-[#541C16] uppercase tracking-wide mb-2">
-              Activity Cover Banner
+              Event Cover Banner
             </label>
             <div className="space-y-3">
               <UploadWidget
                 onUploadSuccess={handleImageUpload}
-                folder="activities"
+                folder="events"
                 allowedFormats={["png", "jpeg", "jpg", "webp"]}
               />
               {imageUrl && (
@@ -327,7 +260,7 @@ export default function ActivityForm({
                   <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-black relative shrink-0 shadow-sm">
                     <Image
                       src={imageUrl}
-                      alt="Uploaded cover"
+                      alt="Uploaded event cover"
                       fill
                       className="object-cover"
                     />
@@ -357,12 +290,12 @@ export default function ActivityForm({
               {isSubmitting
                 ? "Saving..."
                 : mode === "create"
-                ? "Create Activity"
-                : "Update Activity"}
+                ? "Create Event"
+                : "Update Event"}
             </button>
             <button
               type="button"
-              onClick={() => router.push("/dashboard/sa/activities")}
+              onClick={() => router.push("/dashboard/tech/events")}
               className="px-6 py-2.5 bg-[#E5C198] hover:bg-[#d6af84] text-[#541C16] font-cinzel font-bold rounded-xl border-2 border-black transition-all text-xs sm:text-sm cursor-pointer"
             >
               Cancel

@@ -4,16 +4,13 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { MdEmojiEvents, MdLocalActivity, MdAssignment } from "react-icons/md";
-import { SideNavProvider } from "@/lib/contexts/SANavContext";
+import { MdPeople, MdEvent } from "react-icons/md";
 
-type SALayoutDashboardProps = {
-  children: React.ReactNode;
-};
-
-export default function SALayoutDashboard({
+export default function TechDashboardLayout({
   children,
-}: SALayoutDashboardProps) {
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -26,21 +23,15 @@ export default function SALayoutDashboard({
 
   const navItems = [
     {
-      label: "Competitions",
-      href: "/dashboard/sa/competitions",
-      icon: <MdEmojiEvents className="w-5 h-5" />,
-      exact: false,
+      label: "Users",
+      href: "/dashboard/tech",
+      icon: <MdPeople className="w-5 h-5" />,
+      exact: true,
     },
     {
-      label: "Activities",
-      href: "/dashboard/sa/activities",
-      icon: <MdLocalActivity className="w-5 h-5" />,
-      exact: false,
-    },
-    {
-      label: "Applications",
-      href: "/dashboard/sa/applications",
-      icon: <MdAssignment className="w-5 h-5" />,
+      label: "Events",
+      href: "/dashboard/tech/events",
+      icon: <MdEvent className="w-5 h-5" />,
       exact: false,
     },
   ];
@@ -70,10 +61,10 @@ export default function SALayoutDashboard({
               />
             </div>
             <h2 className="font-cinzel font-black text-[#541C16] text-base uppercase tracking-wider">
-              SA Dashboard
+              Tech Dashboard
             </h2>
             <p className="font-cinzel font-bold text-xs text-[#8C4A2F]">
-              Social Activity
+              Technology & Web Admin
             </p>
           </div>
 
@@ -92,11 +83,7 @@ export default function SALayoutDashboard({
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span
-                      className={
-                        active ? "text-[#FFE6CD]" : "text-[#7E3E11]"
-                      }
-                    >
+                    <span className={active ? "text-[#FFE6CD]" : "text-[#7E3E11]"}>
                       {item.icon}
                     </span>
                     <span className="tracking-wide">{item.label}</span>
@@ -111,32 +98,30 @@ export default function SALayoutDashboard({
         </aside>
 
         {/* Mobile Navigation Bottom Bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#7E3E11] border-t-2 border-black z-40 px-3 py-2 flex justify-around items-center shadow-2xl">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#7E3E11] border-t-2 border-black z-40 px-4 py-2 flex justify-around items-center shadow-2xl">
           {navItems.map((item) => {
             const active = isItemActive(item);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center gap-1 font-cinzel font-bold text-xs py-1.5 px-3 sm:px-4 rounded-lg border-2 border-black transition-all ${
+                className={`flex flex-col items-center gap-1 font-cinzel font-bold text-xs py-1.5 px-6 rounded-lg border-2 border-black transition-all ${
                   active
                     ? "bg-[#BF6432] text-white shadow-md scale-105"
                     : "bg-[#F5D2A4] text-[#541C16]"
                 }`}
               >
                 {item.icon}
-                <span className="text-[11px]">{item.label}</span>
+                <span>{item.label}</span>
               </Link>
             );
           })}
         </div>
 
         {/* Main Content Area */}
-        <SideNavProvider value={{ handleSideNav: () => {} }}>
-          <main className="flex-1 flex flex-col h-full min-h-[93.5vh] overflow-x-hidden p-4 sm:p-6 md:p-8 mb-20 md:mb-0">
-            {children}
-          </main>
-        </SideNavProvider>
+        <main className="flex-1 flex flex-col h-full min-h-[93.5vh] overflow-x-hidden p-4 sm:p-6 md:p-8 mb-20 md:mb-0">
+          {children}
+        </main>
       </div>
     </div>
   );

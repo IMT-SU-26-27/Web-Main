@@ -1,13 +1,16 @@
+import React from "react";
 import AchievementForm from "@/components/achievement/AchievementForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Achievement - PR Dashboard",
+  description: "Create a new student union achievement record.",
+};
 
 export default function CreateAchievementPage() {
   return (
-    <>
-      <div className='h-[6.5vh]'></div>
-      <div className="flex py-10 flex-col justify-center items-center min-h-[93.5vh] bg-white">
-        <h1 className="text-3xl font-bold mb-6">Create New Achievement</h1>
-        <AchievementForm mode="create" />
-      </div>
-    </>
+    <div className="w-full h-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 select-none">
+      <AchievementForm mode="create" />
+    </div>
   );
 }

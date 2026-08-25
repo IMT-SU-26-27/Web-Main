@@ -49,15 +49,17 @@ export default async function AchievementDetails(props: {
       <BigWaves extraClassName="rotate-x-180" />
 
       <div className="relative my-24 z-10 container mx-auto px-6 lg:px-20 mt-8">
-        {/* Main Content Layout */}
+        {/* Back Navigation Button */}
         <div className="mt-4 flex justify-left w-full">
           <Link href="/achievements">
-            <button className="bg-[#b3caeb] text-[#1c3c86] text-2xl md:text-3xl font-extrabold px-16 py-3.5 rounded-lg shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer font-cinzel flex gap-2">
+            <button className="bg-[#b3caeb] text-[#1c3c86] text-2xl md:text-3xl font-extrabold px-16 py-3.5 rounded-lg shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer font-cinzel flex items-center gap-2">
               <IoArrowBackCircle /> Back
             </button>
           </Link>
         </div>
         <br />
+
+        {/* Main Content Layout */}
         <div className="flex flex-col lg:flex-row justify-center items-center gap-16 lg:gap-24 w-full">
           {/* Left Column: Image Frame & Mascot */}
           <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-start">

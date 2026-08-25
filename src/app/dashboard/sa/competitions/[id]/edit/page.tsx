@@ -1,12 +1,19 @@
-import CompetitionsForm from "@/components/competition/CompetitionForm";
+import React from "react";
+import CompetitionForm from "@/components/competition/CompetitionForm";
 import { getCompetitionById } from "@/lib/service/competition";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit Competition - SA Dashboard",
+  description: "Edit student union competition details.",
+};
 
 export default async function EditCompetitionPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const id = await params.id;
+  const id = params.id;
   const competition = await getCompetitionById(id);
 
   if (!competition) {
@@ -14,9 +21,8 @@ export default async function EditCompetitionPage(props: {
   }
 
   return (
-    <div className="flex flex-col w-full justify-center items-center min-h-screen pt-[14vh] pb-10">
-      <h1 className="text-3xl font-bold mb-6">Edit Competition</h1>
-      <CompetitionsForm mode="edit" data={competition} />
+    <div className="w-full h-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 select-none">
+      <CompetitionForm mode="edit" data={competition} />
     </div>
   );
 }

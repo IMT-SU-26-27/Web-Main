@@ -1,13 +1,20 @@
+import React from "react";
 import ActivityForm from "@/components/activity/ActivityForm";
 import { getActivityById } from "@/lib/service/activity";
 import { notFound } from "next/navigation";
 import { Category } from "@prisma/client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit Activity - SA Dashboard",
+  description: "Edit student union activity details.",
+};
 
 export default async function EditActivityPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const id = await params.id;
+  const id = params.id;
   const activity = await getActivityById(id);
   const categories = Object.values(Category);
 
@@ -16,8 +23,7 @@ export default async function EditActivityPage(props: {
   }
 
   return (
-    <div className="flex flex-col w-full justify-center items-center min-h-screen pt-[14vh] pb-10">
-      <h1 className="text-3xl font-bold mb-6">Edit Activity</h1>
+    <div className="w-full h-full flex-1 flex flex-col p-4 sm:p-6 md:p-8 select-none">
       <ActivityForm mode="edit" data={activity} categories={categories} />
     </div>
   );

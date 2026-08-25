@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import DashboardBackground from "@/components/dashboard/DashboardBackground";
 import ApplicationsSearch from "@/components/dashboard/ApplicationsSearch";
 import { getApplicationsWithDetails, setStatusApplication } from "@/lib/service/application";
 import { ApplicationWithDetails } from "@/types/service/application";
@@ -51,8 +50,7 @@ export default function ApplicationsPage() {
   };
 
   return (
-    <div className="overflow-hidden relative flex flex-col items-center justify-start min-h-screen w-full bg-[url('/backgrounds/background-paper.png')] bg-cover bg-center bg-[#F1EEE6]">
-      <DashboardBackground />
+    <div className="w-full h-full flex-1 flex flex-col items-center justify-start m-0 p-0">
       <ApplicationsSearch
         applications={applications}
         updateApplicationStatus={handleStatusUpdate}
