@@ -74,6 +74,7 @@ export async function createAchievement(
 
     revalidatePath("/dashboard/pr");
     revalidatePath("/achievements");
+    revalidatePath("/");
 
     return {
       success: true,
@@ -130,6 +131,7 @@ export async function updateAchievement(
     revalidatePath("/achievements");
     revalidatePath(`/achievements/${id}`);
     revalidatePath(`/dashboard/pr/${id}/edit`);
+    revalidatePath("/");
 
     return {
       success: true,
@@ -137,7 +139,7 @@ export async function updateAchievement(
       message: "Achievement updated successfully!",
     };
   } catch (error) {
-    console.error("Failed to update achievement:", error);
+    console.error("Failed to create/update achievement:", error);
     return {
       success: false,
       error:
@@ -158,6 +160,7 @@ export async function deleteAchievement(
 
     revalidatePath("/dashboard/pr");
     revalidatePath("/achievements");
+    revalidatePath("/");
 
     return {
       success: true,

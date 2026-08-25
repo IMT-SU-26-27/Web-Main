@@ -57,7 +57,7 @@ export default function HomeHeroDesktop() {
                                 <Image draggable={false} src={"/home/to-su-text.svg"} alt='to su text' width={100} height={100} className='sm:w-[70%] lg:w-1/3 h-auto'></Image>
                                 <Image draggable={false} src={"/home/your-creative-tech-text.webp"} alt='your creative tech text' width={100} height={100} className='sm:w-1/2 lg:w-1/4 absolute sm:-top-[25%] lg:-top-[35%] right-0 h-auto'></Image>
                                 <span className='mt-8'></span>
-                                <LinkButton size='xl' href="/">{`Start >`}</LinkButton>
+                                <LinkButton size='xl' href="https://www.youtube.com/watch?v=AqAFkRRcGNc">{`Start >`}</LinkButton>
                             </div>
                             <Image draggable={false} src={"/home/veno-laptop.webp"} className='absolute z-2 bottom-8 sm:left-0 lg:left-18 sm:w-32 lg:w-64 h-auto' width={100} height={100} alt='SU Veno Laptop'></Image>
                         </div>

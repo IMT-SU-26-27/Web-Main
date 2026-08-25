@@ -9,6 +9,8 @@ import BigWaves from "@/components/home/BigWaves";
 import TitleDivider from "@/components/TitleDivider";
 import { MdEmojiEvents } from "react-icons/md";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Achievements",
   description: "Explore the remarkable achievements and quest trophies of IMT UC people.",

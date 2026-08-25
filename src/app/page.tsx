@@ -5,6 +5,8 @@ import ChatBubbleSection from "@/components/home/ChatBubbleSection";
 import BigWaves from "@/components/home/BigWaves";
 import AchievementFeatured from "@/components/achievement/AchievementFeatured";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Home - SU IMT",
   description: "Student Union Information and Multimedia Technology - Your Creative Tech Community",
