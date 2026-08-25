@@ -22,7 +22,7 @@ export default async function Home() {
         <Image src={"/home/lines.svg"} alt="lines" width={100} height={100} className="w-full absolute bottom-1 sm:-bottom-3 xl:-bottom-7"></Image>
       </section>
       <ChatBubbleSection title={`“Hi there, I'm Veno! You might be wondering, what is SU IMT?`} content={`Well, SU IMT (or Student Union Information and Multimedia Technology) is a student-led organization that serves as a platform for students of the Informatics study program to grow professionally, socially, and academically. SU IMT UC organizes various events, workshops, and initiatives to enhance student engagement, develop leadership skills, and support innovation in technology.”`} />
-      <BigWaves />
+      <BigWaves extraClassName=""/>
       <AchievementFeatured></AchievementFeatured>
     </div>
   );

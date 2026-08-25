@@ -9,6 +9,13 @@ import {
 } from "@/lib/service/application";
 import StudentDashboardClient from "@/components/dashboard/StudentDashboard";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Student Dashboard",
+  description: "View and manage your SU activity and competition applications.",
+};
+
 export default async function StudentDashboard() {
   const session = await getServerSession(authOptions);
 

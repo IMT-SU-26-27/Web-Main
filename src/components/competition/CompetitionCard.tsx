@@ -7,12 +7,12 @@ import { useState } from "react";
 import { Competition } from "@/types/service/competition";
 
 const colorList = [
-  "#ED4E45", // Red
-  "#118D25", // Green
-  "#F64A78", // Pink
-  "#0555AB", // Blue
-  "#F7C235", // Yellow
-  "#CCBCAF", // Gray
+  "#E0353C", // Red
+  "#07A54A", // Green
+  "#FFB20C", // Yellow
+  "#EC6DA4", // Pink
+  "#8E60A5", // Purple
+  "#00BA9C", // Green Lame
 ];
 
 type CompetitionCardProps = {
@@ -24,17 +24,14 @@ type CompetitionCardProps = {
 export const CompetitionCard = ({
   competition,
   index,
-  className,
+  className = "",
 }: CompetitionCardProps) => {
   const accentColor = colorList[index % colorList.length];
   const [swinging, setSwinging] = useState(false);
   const pathname = usePathname();
   const description = competition.description;
-  const descChar = 200;
   const trimmedDescription =
-    description.length > descChar
-      ? description.slice(0, descChar) + "..."
-      : description;
+    description.length > 75 ? description.slice(0, 75) + "..." : description;
 
   return (
     <div
@@ -42,21 +39,17 @@ export const CompetitionCard = ({
         setSwinging(true);
         setTimeout(() => setSwinging(false), 700); // match swing duration (in global.css ; .swing-effect)
       }}
-      className={`transform flex flex-col transition-all duration-300 relative w-[330px] sm:w-[360px] h-[430px] bg-white shadow-[5px_5px_10px_rgba(0,0,0,0.1)] rounded-xl px-4 py-4 mt-8 text-left border-[1px] border-gray-200 hover:rotate-[1.5deg] hover:origin-top ${
+      style={{ backgroundColor: accentColor }}
+      className={`transform flex flex-col justify-between transition-all duration-300 relative w-full max-w-[320px] sm:w-[320px] h-[460px] mt-8 text-left hover:rotate-[1.5deg] hover:origin-top overflow-hidden ${
         swinging ? "swing-effect" : ""
-      } ${className} `}
+      } ${className}`}
     >
-      {/* Paper Clip */}
-      <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
-        <Image src="/activities/tape.svg" alt="tape" width={80} height={80} />
-      </div>
-
+      {/* Top clickable area leading to competition detail */}
       <Link
         href={`${pathname.replace(/\/$/, "")}/${competition.id}`}
-        className="flex-1 flex flex-col"
+        className="flex-1 flex flex-col p-4 pb-2 overflow-hidden"
       >
-        <div className="w-full h-50 sm:h-55 mb-2 rounded-lg overflow-hidden">
-          {/* Activity Image */}
+        <div className="relative w-full h-40 sm:h-44 mb-2 overflow-hidden rounded-lg">
           <Image
             src={competition.imageUrl || "/placeholder/placeholder.png"}
             alt={competition.name}
@@ -67,51 +60,78 @@ export const CompetitionCard = ({
         </div>
 
         {/* Card Content */}
-        <div className="flex justify-between">
-          <div>
-            <h3 className="w-full text-black text-[1.3rem] font-extrabold">
-              {competition.name}
-            </h3>
+        <div className="flex flex-col">
+          <h4 className="text-white text-xs sm:text-sm font-family-glacial font-extrabold uppercase tracking-wider opacity-90 line-clamp-1">
+            {competition.organizer}
+          </h4>
+          <h3 className="w-full text-[#FFF5E3] text-lg sm:text-xl font-cinzel font-extrabold line-clamp-1">
+            {competition.name}
+          </h3>
 
-            {/* Location Desc Logo */}
-            {/* <div className="flex gap-1 justify-start items-center">
-              <Image
-                className="w-[0.6rem]"
-                src={"/activities/point-map.svg"}
-                alt="Point map" 
-                width={50}
-                height={50}
+          {/* Category, Type & Level */}
+          <div className="flex text-[#FFF5E3] gap-1 justify-start items-center mt-1">
+            <svg className="w-[0.6rem] h-[0.6rem]" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                clipRule="evenodd"
               />
-              <p className="text-[0.8rem] text-gray-600">$$$</p>
-            </div> */}
+            </svg>
+            <p className="text-[0.8rem] capitalize">
+              {competition.category} • {competition.type.toLowerCase()} • {competition.level.toLowerCase()}
+            </p>
           </div>
 
-          {/* People Amount Logo */}
-          {/* <div className="flex flex-col items-center justify-center">
-            <Image
-              className="w-[25px]"
-              src={'/activities/logo-people.svg'}
-              alt="People Logo"
-              width={100}
-              height={100}
-            />
-            <p className="text-[0.9rem]">000</p>
-          </div> */}
+          {/* Start & End Dates */}
+          <div className="flex gap-1 text-[#FFF5E3] justify-start items-center mt-1">
+            <svg
+              className="w-[0.6rem] h-[0.6rem]"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <p className="text-[0.8rem]">
+              {new Date(competition.startDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}{" "}
+              -{" "}
+              {new Date(competition.endDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+
+          {/* Description */}
+          <p className="w-full mt-2 font-gill text-[12px] text-[#FFF5E3] line-clamp-2">
+            {trimmedDescription}
+          </p>
         </div>
-        <p className="w-full mt-2 font-gill text-[12px] text-black">
-          {trimmedDescription}
-        </p>
       </Link>
 
-      <a
-        href="https://bit.ly/compucimt"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative mt-auto w-full py-2 rounded-lg text-white font-medium text-center transition-all duration-200 hover:opacity-90 flex items-center justify-center"
-        style={{ backgroundColor: accentColor }}
-      >
-        <p className="text-[0.9rem]">Register</p>
-      </a>
+      {/* Register Button docked directly at the bottom edge */}
+      <div className="w-full mt-auto">
+        <Link
+          href="https://bit.ly/compucimt"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] bg-black/40 hover:bg-black/50"
+        >
+          {/* Sliding color overlay from left on hover */}
+          <span
+            className="absolute inset-0 bg-black/30 transform -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
+            aria-hidden="true"
+          />
+          <span className="relative z-10 text-base sm:text-lg">Register</span>
+        </Link>
+      </div>
     </div>
   );
 };

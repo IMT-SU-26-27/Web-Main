@@ -65,9 +65,9 @@ export default function SearchBar<T extends SearchableItem, C extends CategoryFi
     <div className={`w-full ${className ?? ""}`}>
       {/* Search bar */}
       <div
-        className={`my-1 ${isCentered ? "m-auto justify-center" : "justify-start"} flex items-center gap-2 w-full max-w-[400px]`}
+        className={`my-1 ${isCentered ? "m-auto justify-center" : "justify-start"} flex items-center gap-2 w-full`}
       >
-        <div className="relative w-full max-w-[260px] sm:max-w-sm md:max-w-md">
+        <div className="relative w-full">
           <Image
             src="/logos/SearchIcon.webp"
             alt="Search Icon"
@@ -80,7 +80,7 @@ export default function SearchBar<T extends SearchableItem, C extends CategoryFi
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={placeholder}
-            className="w-full pl-10 pr-4 py-2 border-[2.5px] border-[#FF4712] rounded-full bg-white focus:outline-none placeholder-gray-400 text-sm"
+            className="w-full pl-10 pr-4 py-2 border-[2.5px] border-[#840D1] rounded-full bg-white focus:outline-none placeholder-gray-400 text-sm"
           />
         </div>
         

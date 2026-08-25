@@ -35,7 +35,7 @@ export async function main() {
         category: "ACTIVITY",
       },
       {
-        title: "Hackathon 2025",
+        title: "Hackathon 2027",
         description:
           "24-hour coding competition where teams build innovative solutions to real-world problems. Prizes for top 3 teams!",
         location: "Innovation Hub - Building 3",
@@ -194,6 +194,34 @@ export async function main() {
       },
       {
         name: "Design Thinking Workshop",
+        organizer: "Design Club IMT",
+        description:
+          "Creative competition focused on user experience design and innovative problem-solving methodologies.",
+        category: "Design",
+        information: "Team-based competition. Max 4 members per team. Design tools will be provided.",
+        type: "GROUP",
+        level: "REGIONAL",
+        startDate: new Date("2025-11-01T10:00:00Z"),
+        endDate: new Date("2025-11-01T16:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+      {
+        name: "Lorem 2",
+        organizer: "Design Club IMT",
+        description:
+          "Creative competition focused on user experience design and innovative problem-solving methodologies.",
+        category: "Design",
+        information: "Team-based competition. Max 4 members per team. Design tools will be provided.",
+        type: "GROUP",
+        level: "REGIONAL",
+        startDate: new Date("2025-11-01T10:00:00Z"),
+        endDate: new Date("2025-11-01T16:00:00Z"),
+        imageUrl: null,
+        imagePublicId: null,
+      },
+      {
+        name: "Lorem 4",
         organizer: "Design Club IMT",
         description:
           "Creative competition focused on user experience design and innovative problem-solving methodologies.",

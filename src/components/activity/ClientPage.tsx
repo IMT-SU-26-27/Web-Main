@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ActivityBackground from "./ActivityBackground";
 import ActivitiesSearch from "./ActivitiesSearch";
 import { Activity, Category } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -38,7 +37,7 @@ function ClientPageActivities({
         }
       }
     };
-    
+
     checkUserProfile();
   }, [session]);
 
@@ -49,11 +48,11 @@ function ClientPageActivities({
       setShowConfirm(true);
       return;
     }
-    
+
     // Normal confirmation flow
     setIsIncompleteProfile(false);
     setShowConfirm(true);
-    setPendingAction(() => onConfirm); 
+    setPendingAction(() => onConfirm);
   };
 
   const handleConfirm = async () => {
@@ -70,11 +69,8 @@ function ClientPageActivities({
   return (
     <>
       {/* Spacer for header */}
-      <div className="h-[10vh] bg-[#F1EEE6]" />
-
       {/* Background Container */}
-      <div className="select-none relative overflow-hidden flex flex-col items-center justify-center min-h-[90vh] pt-0 w-full bg-[url('/backgrounds/background-paper.png')] bg-cover bg-center bg-[#F1EEE6]">
-        <ActivityBackground />
+      <div className="select-none relative overflow-hidden flex flex-col items-center justify-center pt-0 w-full">
         <ActivitiesSearch
           activities={activities}
           confirmApply={confirmApply}

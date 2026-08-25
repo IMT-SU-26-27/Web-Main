@@ -54,3 +54,9 @@ export const AchievementSchema = z.object({
 export type AchievementInput = z.infer<typeof AchievementSchema>;
 
 export type AchievementFormProps = FormProps<Achievement>;
+
+export interface AchievementItemCardProps {
+  achievement: Achievement;
+  index: number;
+  className?: string;
+}

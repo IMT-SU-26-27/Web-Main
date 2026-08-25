@@ -11,7 +11,14 @@ export interface FormProps<T> {
 }
 
 export interface ApplyButtonProps {
+  bgColor?: string;
+  children: React.ReactNode;
+  className?: string;
   activityId: string;
+  confirmApply?: (onConfirm: () => Promise<void>) => void;
+  startDate?: Date;
+  quota?: number;
+  approvedCount?: number;
 }
 
 export interface UploadWidgetProps {

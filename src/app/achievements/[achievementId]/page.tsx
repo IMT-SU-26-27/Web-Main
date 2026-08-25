@@ -1,14 +1,18 @@
 import React from "react";
 import Image from "next/image";
-import FrameImage from "@/components/achievement/FrameImage";
+import { CldImage } from "next-cloudinary";
 import { getAchievementById } from "@/lib/service/achievement";
 import NotFound from "./not-found";
+import Link from "next/link";
+import BigWaves from "@/components/home/BigWaves";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 export async function generateMetadata(props: {
   params: Promise<{ achievementId: string }>;
 }) {
   const params = await props.params;
   const achievementId = params.achievementId;
+
   const achievement = await getAchievementById(achievementId);
 
   if (!achievement) {
@@ -22,9 +26,12 @@ export async function generateMetadata(props: {
   };
 }
 
-const page = async (props: { params: Promise<{ achievementId: string }> }) => {
+export default async function AchievementDetails(props: {
+  params: Promise<{ achievementId: string }>;
+}) {
   const params = await props.params;
-  const { achievementId } = params;
+  const achievementId = params.achievementId;
+
   const achievement = await getAchievementById(achievementId);
 
   if (!achievement) {
@@ -32,103 +39,94 @@ const page = async (props: { params: Promise<{ achievementId: string }> }) => {
   }
 
   const title = achievement.title;
-  const subTitle = achievement.teamInfo;
-  const urlImg1 = achievement.imageUrl;
-  const urlImg2 = urlImg1;
-  const description = achievement.description;
+  const teamInfo = achievement.teamInfo;
+  const description =
+    achievement.description ||
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.";
 
-  const slicedDescription = description.split("\n");
   return (
-    <>
-      <div className="h-[10vh] bg-[#F1EEE6]"></div>
-      <div className="overflow-hidden relative flex flex-col items-center justify-center min-h-[calc(100dvh-10vh)] w-full bg-[url('/backgrounds/background-paper.png')] bg-cover bg-center bg-[#F1EEE6] m-0 p-0">
-        {/* Decorative Image */}
-        <>
-          <Image
-            className="absolute -right-3 -top-7 md:-top-15 w-[100px] md:w-[180px] xl:w-[300px] lg:w-[230px]"
-            src="/achievements/achievementDetails/top-right.png"
-            alt=""
-            width={300}
-            height={327}
-          ></Image>
+    <div className="relative z-4 select-none overflow-hidden flex px-4 sm:px-8 md:px-16 lg:px-24 gap-8 sm:gap-12 flex-col items-center justify-center min-h-[90vh] pt-0 w-full overflow-x-hidden">
+      <BigWaves extraClassName="rotate-x-180" />
 
-          <Image
-            className="absolute right-0 bottom-0 w-[200px] md:w-[300px] xl:w-[500px] lg:w-[370px]"
-            src="/achievements/achievementDetails/bottom-right.png"
-            alt=""
-            width={500}
-            height={251}
-          ></Image>
+      <div className="relative my-24 z-10 container mx-auto px-6 lg:px-20 mt-8">
+        {/* Main Content Layout */}
+        <div className="mt-4 flex justify-left w-full">
+          <Link href="/achievements">
+            <button className="bg-[#b3caeb] text-[#1c3c86] text-2xl md:text-3xl font-extrabold px-16 py-3.5 rounded-lg shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer font-cinzel flex gap-2">
+              <IoArrowBackCircle /> Back
+            </button>
+          </Link>
+        </div>
+        <br />
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-16 lg:gap-24 w-full">
+          {/* Left Column: Image Frame & Mascot */}
+          <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-start">
+            {/* The Beige Frame */}
+            <div className="relative bg-[#f4ebd0] w-[340px] h-[340px] md:w-[480px] md:h-[480px] shadow-2xl rounded-sm border-[12px] border-[#f4ebd0] z-10 flex items-center justify-center">
+              {/* Actual Image Goes Here */}
+              <div className="bg-gray-300 w-full h-full relative overflow-hidden">
+                {achievement.imagePublicId ? (
+                  <CldImage
+                    draggable={false}
+                    loading="lazy"
+                    src={achievement.imagePublicId}
+                    alt={achievement.title}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <Image
+                    src={achievement.imageUrl || "/placeholder/placeholder.png"}
+                    alt={achievement.title}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                )}
+              </div>
 
-          <Image
-            className="hidden md:block absolute -left-5 -top-35 w-[300px] xl:w-[450px] lg:w-[400px]"
-            src="/achievements/achievementDetails/top-left.png"
-            alt=""
-            width={450}
-            height={287}
-          ></Image>
-
-          <Image
-            className="hidden md:block absolute -left-0 -bottom-5 w-[200px] md:w-[300px] xl:w-[450px] lg:w-[350px]"
-            src="/achievements/achievementDetails/bottom-left.png"
-            alt=""
-            width={450}
-            height={287}
-          ></Image>
-        </>
-
-        <div className="flex flex-col md:flex-row md:justify-center items-center md:items-start w-full z-0 gap-15 ">
-          <div className="block md:hidden mt-10 text-center">
-            <h1 className="font-impact font-bold text-4xl">{title}</h1>
-            <h3 className="font-bold text-xl mb-5">{subTitle}</h3>
+              {/* Mascot */}
+              <div className="absolute -bottom-12 -right-16 md:-bottom-16 md:-right-24 z-20 w-[180px] h-[180px] md:w-[260px] md:h-[260px]">
+                <Image
+                  src="/competitions/competition-detail/veno-thinking-look_left.webp"
+                  alt="Veno Mascot"
+                  fill
+                  className="object-contain drop-shadow-2xl hover:-translate-y-2 transition-transform duration-300"
+                  unoptimized
+                />
+              </div>
+            </div>
           </div>
-          <div className="w-[300px] md:w-[300px] xl:w-[403px] h-[300px] md:h-[350px] xl:h-[472px] mt-5 md:mt-35 xl:mt-0 relative">
-            <Image
-              className="absolute -left-45 -top-20 w-[400px] md:w-[500px] z-0"
-              src="/achievements/achievementDetails/decor-bg-circle.png"
-              alt=""
-              width={720}
-              height={701}
-            ></Image>
-            <Image
-              className="absolute -left-7 md:-left-10 xl:-left-35 bottom-5 md:-bottom-10 z-2 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] w-[140px] md:w-[140px] xl:w-[240px]"
-              src="/achievements/achievementDetails/decor-bg-camera.png"
-              alt=""
-              width={250}
-              height={186}
-            ></Image>
 
-            {urlImg1 && (
-              <FrameImage
-                src={urlImg1}
-                className="w-[130px] md:w-[180px] xl:w-[250px] -top-10 left-0 md:-left-10 xl:-left-25 -rotate-15 z-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
-              />
-            )}
-            {urlImg2 && (
-              <FrameImage
-                src={urlImg2}
-                className="w-[210px] md:w-[270px] xl:w-[350px] bottom-0 right-0 rotate-15 drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
-              />
-            )}
-          </div>
-          <div className="md:w-[40%] md:mt-10 w-[80%] z-10 mb-[12vh] ">
-            <h1 className="hidden md:block font-impact font-bold text-5xl">
-              {title}
-            </h1>
-            <h3 className="hidden md:block font-bold text-xl mb-5">
-              {subTitle}
-            </h3>
+          {/* Right Column: Title, Info & Description */}
+          <div className="flex flex-col w-full lg:w-1/2 gap-8 text-left">
+            <div className="relative inline-block w-full">
+              <h1 className="font-extrabold text-5xl md:text-6xl lg:text-[70px] tracking-wide text-white leading-tight font-cinzel">
+                {title}
+              </h1>
+              {teamInfo && (
+                <h2 className="text-2xl md:text-3xl font-bold mt-2 text-white font-family-glacial">
+                  {teamInfo}
+                </h2>
+              )}
 
-            <div className="flex flex-col gap-5 text-xl">
-              {slicedDescription.map((line, index) => (
-                <p key={index}>{line}</p>
-              ))}
+              {/* Floating Bubbles */}
+              <div className="absolute -top-12 -right-0 hidden lg:block opacity-60">
+                <div className="w-12 h-12 bg-white/20 rounded-full blur-[2px] absolute top-0 left-0"></div>
+                <div className="w-16 h-16 bg-white/20 rounded-full blur-[2px] absolute top-8 left-12"></div>
+                <div className="w-10 h-10 bg-white/20 rounded-full blur-[2px] absolute top-24 left-8"></div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mt-2 text-lg md:text-xl font-medium leading-relaxed text-white/95 text-justify font-gill">
+              {description}
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
-};
 
-export default page;
+      <BigWaves extraClassName="" />
+    </div>
+  );
+}

@@ -3,28 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { createApplication, getStatusApplication } from "@/lib/service/application";
-
-type ButtonProps = {
-  bgColor: string;
-  children: React.ReactNode;
-  className?: string;
-  activityId: string;
-  confirmApply?: (onConfirm: () => Promise<void>) => void;
-  startDate?: Date;
-  quota?: number;
-  approvedCount?: number;
-};
+import { ApplyButtonProps } from "@/types/action";
 
 export default function ApplyButton({
-  bgColor,
   children,
-  className,
+  className = "",
   activityId,
   confirmApply,
   startDate,
   quota,
-  approvedCount
-}: ButtonProps) {
+  approvedCount,
+}: ApplyButtonProps) {
   const { data: session, status } = useSession();
   const [applicationStatus, setApplicationStatus] = useState<string | undefined>(undefined);
 
@@ -40,18 +29,18 @@ export default function ApplyButton({
 
   const handleApply = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     // Prevent application if activity has passed or quota is full
     if (isActivityPassed || isQuotaFull) {
       return;
     }
-    
+
     if (!session?.user?.id) {
       signIn("google");
       return;
     }
 
-    if(!applicationStatus){
+    if (!applicationStatus) {
       confirmApply?.(async () => {
         // prevent multiple applications
         const result = await createApplication(session.user.id, activityId);
@@ -62,13 +51,13 @@ export default function ApplyButton({
         }
       });
     }
-    
   };
 
   let childrenTemp = children;
   const now = new Date();
   const isActivityPassed = startDate ? new Date(startDate) < now : false;
   const isQuotaFull = quota && approvedCount !== undefined ? approvedCount >= quota : false;
+  const isDisabled = isActivityPassed || isQuotaFull;
 
   if (status === "loading") {
     childrenTemp = "Loading...";
@@ -89,15 +78,22 @@ export default function ApplyButton({
   return (
     <button
       type="button"
-      className={`inline-block transition-all duration-300 hover:shadow-[0_0_10px_4px] hover:ring-2 text-white text-[0.9rem] px-4 py-1 rounded-md ease-in-out hover:brightness-90 ${className} ${
-        isActivityPassed || isQuotaFull ? 'cursor-not-allowed' : ''
-      }`}
-      style={{ backgroundColor: childrenTemp !== children ? "#a0a0a0" : bgColor }}
+      className={`group relative overflow-hidden transition-all duration-300 flex items-center justify-center text-center font-cinzel font-bold py-3 px-4 w-full text-[#FFF5E3] ${
+        isDisabled
+          ? "cursor-not-allowed bg-black/50 text-[#FFF5E3]/70"
+          : "cursor-pointer bg-black/40 hover:bg-black/50"
+      } ${className}`}
       onClick={handleApply}
-      disabled={isActivityPassed || isQuotaFull}
+      disabled={isDisabled}
     >
-      {childrenTemp}
+      {/* Sliding color overlay from left on hover */}
+      {!isDisabled && (
+        <span
+          className="absolute inset-0 bg-black/30 transform -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
+          aria-hidden="true"
+        />
+      )}
+      <span className="relative z-10 text-base sm:text-lg">{childrenTemp}</span>
     </button>
   );
 }
-

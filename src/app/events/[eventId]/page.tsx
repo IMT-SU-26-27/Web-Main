@@ -10,7 +10,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// Pindahkan eventsData ke luar component
 const eventsData = [
   {
     id: "pulse",
