@@ -26,10 +26,14 @@ export default function VisionMissionSection() {
             <span className="font-cinzel font-bold text-sm sm:text-base text-gray-600 uppercase tracking-widest mb-3">
               SU IMT team
             </span>
-            <div className="w-full h-44 sm:h-52 bg-[#D9D9D9] rounded-xl flex items-center justify-center overflow-hidden relative border border-black/5 shadow-inner">
-              <div className="text-gray-400 font-cinzel text-sm sm:text-base font-semibold tracking-wider uppercase">
-                SU IMT Team
-              </div>
+            <div className="w-full h-44 sm:h-52 rounded-xl flex items-center justify-center overflow-hidden relative border border-black/5 shadow-inner">
+              <Image
+                src="/about/su-imt-team.webp"
+                alt="SU IMT Team"
+                fill
+                className="object-cover"
+                draggable={false}
+              />
             </div>
           </div>
         </div>
