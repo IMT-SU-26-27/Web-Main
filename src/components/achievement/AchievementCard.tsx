@@ -3,6 +3,7 @@
 import { CldImage } from "next-cloudinary";
 import React from "react";
 import { Achievement } from "@/types/service/achievement";
+import Link from "next/link";
 
 interface AchievementCardProps {
   achievement: Achievement;
@@ -18,8 +19,9 @@ export function AchievementCard({
   const imageSrc = achievement.imagePublicId || achievement.imageUrl;
 
   return (
-    <div
-      className={`bg-white w-[16rem] md:w-[20rem] p-4 h-96 flex flex-col justify-start items-center rounded-lg shadow-md overflow-hidden ${className ?? ""}`}
+    <Link
+      href={`/achievements/${achievement.id}`}
+      className={`bg-white w-[16rem] md:w-[20rem] p-4 h-96 flex flex-col justify-start items-center rounded-lg shadow-md overflow-hidden hover:cursor-pointer ${className ?? ""}`}
     >
       {imageSrc ? (
         <div className="relative bg-gray-300 h-72 w-full rounded overflow-hidden">
@@ -45,7 +47,7 @@ export function AchievementCard({
           {achievement.teamInfo}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
 
